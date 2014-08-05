@@ -6,7 +6,11 @@ from recettator import Recettator
 
 
 def recettator_cli():
-    recettator = Recettator()
+    seed = None
+    if len(sys.argv) > 1:
+        seed = sys.argv[1]
+
+    recettator = Recettator(seed=seed)
 
     print(recettator.title)
     print(len(recettator.title) * '=')

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import random
 
 from .utils import pick_random, pick_random_dict
 
@@ -30,7 +31,7 @@ class Recettator:
     }
 
     method = [
-        '', 'a la juive' 'a la mexicaine', 'methode traditionnelle',
+        '', 'a la juive', 'a la mexicaine', 'methode traditionnelle',
         'a l\'ancienne', 'comme a la maison', 'recette originale', 'perso',
         'special grandes occasions', 'du chef', 'a la provencale',
         'recette de ma grand-mere', 'special pizzaiolo', 'premium\'s',
@@ -38,13 +39,15 @@ class Recettator:
     ]
 
 
-    def __init__(self):
+    def __init__(self, seed=None):
         self._data = None
+        self.seed = seed
 
     def create(self, seed=None):
+        if not seed:
+            seed = self.seed
         if seed:
-            # FIXME: initialize random with seed
-            raise NotImplementedError()
+            random.seed(self.seed)
         self._data = {
             'title': '',
             'people': 0,
