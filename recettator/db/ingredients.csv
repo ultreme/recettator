@@ -2,9 +2,50 @@
 
 # female multiple (f;m)
 noisettes;f;m
+amandes;f;m
+noix;f;m
+pommes de terre;f;m
+dattes;f;m
+graines de pavot;f;m
+epices;f;m
+tomates;f;m
+gousses de vanille;f;m
+
+# female single (f;s)
+canelle;f;s
+noix de coco;f;s
+mascarpone;f;s
+confiture d'oranges ameres;f;s
+orange;f;s
+pamplemousse;f;s
+farine;f;s
+moutarde;f;s
 
 # male single (m;s)
 gui;m;s
 houx;m;s
 ble;m;s
 lierre;m;s
+anis;m;s
+citron;m;s
+mais;m;s
+oeuf;m;s
+beurre;m;s
+sel;m;s
+riz;m;s
+cacao;m;s
+fromage rape;m;s
+cube de Kubor;m;s
+reblochon;m;s
+
+# male multiple (m;m)
+flocons d'avoine;m;m
+fruits;m;m
+fruits secs;m;m
+clous de girofle;m;m
+petits pois;m;m
+oeufs;m;m
+blancs d'oeuf;m;m
+jaunes d'oeuf;m;m
+morceaux de sucre;m;m
+champignons de Paris;m;m
