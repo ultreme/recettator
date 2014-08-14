@@ -1,0 +1,33 @@
+# name;gender;quantity
+
+# female multiple (f;m)
+tranchesf;m
+galettes;f;m
+lasagnes;f;m
+chips;f;m
+cereales;f;m
+escalopes;f;m
+
+# female single (f;s)
+truffe;f;s
+mousse;f;s
+buche;f;s
+puree;f;s
+ratatouille;f;s
+soupe;f;s
+
+# male multiple (m;m)
+petits gateaux;m;m
+rochers;m;m
+endives;m;m
+pates;m;m
+patates;m;m
+champignons;m;m
+
+# male single (m;s)
+parfait;m;s
+civet;m;s
+gateau;m;s
+gratin;m;s
+kebab;m;s
+rouleau;m;s
