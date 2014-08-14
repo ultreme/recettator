@@ -16,7 +16,8 @@ def recettator_cli():
     print(len(recettator.title) * '=')
     print('')
 
-    print(recettator.infos)
+    for k, v in recettator.infos.items():
+        print('{}: {}'.format(k, v))
     print('')
 
     print('Ingredients')

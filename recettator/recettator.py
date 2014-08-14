@@ -3,87 +3,58 @@
 import random
 
 from .utils import pick_random, pick_random_dict
+from .custom_csv import CustomCSV
 
 
 class Recettator:
-    base = {
-        'female:multiple': [
-            'tranches', 'galettes', 'lasagnes', 'chips', 'cereales',
-            'escalopes',
-        ],
-        'female:single': [
-            'truffe', 'mousse', 'buche', 'puree', 'ratatouille', 'soupe',
-        ],
-        'male:multiple': [
-            'petits gateaux', 'rochers', 'endives', 'pates', 'patates',
-            'champignons',
-        ],
-        'male:single': [
-            'parfait', 'civet', 'gateau', 'gratin', 'kebab', 'rouleau',
-        ],
-    }
-
-    ingredients = {
-        'female:multiple': ['noisettes',],
-        'female:single': [],
-        'male:multiple': [],
-        'male:single': ['gui', 'houx', 'ble', 'lierre',],
-    }
-
-    method = [
-        '', 'a la juive', 'a la mexicaine', 'methode traditionnelle',
-        'a l\'ancienne', 'comme a la maison', 'recette originale', 'perso',
-        'special grandes occasions', 'du chef', 'a la provencale',
-        'recette de ma grand-mere', 'special pizzaiolo', 'premium\'s',
-        'version XXL',
-    ]
-
+    """ Recettator class. """
 
     def __init__(self, seed=None):
         self._data = None
         self.seed = seed
+        self.dbs = {}
+
+    def db_pick(self, kind, **kwargs):
+        if not kind in self.dbs:
+            self.dbs[kind] = CustomCSV('db/{}.csv'.format(kind),
+                                       shuffle=True)
+
+        db = self.dbs[kind]
+        return db.pick(**kwargs)
 
     def create(self, seed=None):
         if not seed:
             seed = self.seed
         if seed:
             random.seed(self.seed)
+
         self._data = {
-            'title': '',
-            'people': 0,
             'ingredients': {},
             'howto': [],
+            'recette': self.db_pick('recettes'),
+            'method': self.db_pick('methods'),
+            'people': random.randrange(1, 10)
         }
-        self._data['people'] = 42
-        title_base = pick_random_dict(self.base)
-        title_method = pick_random(self.method)
-        title = title_base['value'] + ' '
-        title += title_method
-        self._data['title'] = title
-        print(title_base)
 
     def _create_if_not_exists(self):
         if not self._data:
             self.create()
 
+    def __getattr__(self, name):
+        self._create_if_not_exists()
+        if name in self._data:
+            return self._data[name]
+        raise KeyError('Unknown key: {}'.format(name))
+
     @property
     def title(self):
-        self._create_if_not_exists()
-        return self._data['title']
+        title_parts = []
+        title_parts.append(self.recette['name'])
+        title_parts.append(self.method['name'])
+        return ' '.join(title_parts)
 
     @property
     def infos(self):
-        self._create_if_not_exists()
         return {
-            'people': self._data['people'],
+            'people': self.people,
         }
-
-    @property
-    def ingredients(self):
-        self._create_if_not_exists()
-        return self._data['ingredients']
-
-    @property
-    def howto(self):
-        self._create_if_not_exists()
-        return self._data['howto']
