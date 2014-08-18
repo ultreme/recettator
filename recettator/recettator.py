@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import random
+import pkg_resources
+import os
 
 from .utils import pick_random, pick_random_dict
 from .custom_csv import CustomCSV
@@ -16,8 +18,9 @@ class Recettator:
 
     def db_pick(self, kind, **kwargs):
         if not kind in self.dbs:
-            self.dbs[kind] = CustomCSV('db/{}.csv'.format(kind),
-                                       shuffle=True)
+            dirpath = pkg_resources.resource_filename('recettator', 'db')
+            path = os.path.join(dirpath, '{}.csv'.format(kind))
+            self.dbs[kind] = CustomCSV(path, shuffle=True)
 
         db = self.dbs[kind]
         return db.pick(**kwargs)
