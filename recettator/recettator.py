@@ -36,7 +36,7 @@ class Recettator:
             'howto': [],
             'recette': self.db_pick('recettes'),
             'method': self.db_pick('methods'),
-            'people': random.randrange(1, 10)
+            'people': random.randrange(1, 100)
         }
 
     def _create_if_not_exists(self):
@@ -55,6 +55,16 @@ class Recettator:
         title_parts.append(self.recette['name'])
         title_parts.append(self.method['name'])
         return ' '.join(title_parts)
+
+    @property
+    def people(self):
+        people = self._data.get('people')
+        parts = ['Pour']
+        if people < 20:
+            parts.append('environ')
+        parts.append(str(people))
+        parts.append('personnes')
+        return ' '.join(parts)
 
     @property
     def infos(self):
