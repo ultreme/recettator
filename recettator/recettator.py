@@ -44,9 +44,18 @@ class Recettator:
             'method': self.db_pick('methods'),
         }
 
-        # v = max(0, v)
+        # Picking ingredients
         for k, v in self._data['amount'].items():
-            self._data['amount'][k] = max(0, v)
+            # v = max(0, v)
+            self._data['amount'][k] = v = max(0, v)
+            if not k in self._data['ingredients']:
+                self._data['ingredients'][k] = []
+
+                for i in xrange(v):
+                    ingredient = {
+                        'kind': self.db_pick(k)
+                    }
+                    self._data['ingredients'][k].append(ingredient)
 
     def _create_if_not_exists(self):
         if not self._data:

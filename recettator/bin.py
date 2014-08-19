@@ -22,7 +22,9 @@ def recettator_cli():
 
     print('Ingredients')
     print('-----------')
-    print(recettator.ingredients)
+    for category, ingredients in recettator.ingredients.items():
+        for ingredient in ingredients:
+            print('- {}'.format(ingredient['kind']['name']))
     print('')
 
     print('How-to')
