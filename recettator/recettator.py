@@ -32,12 +32,21 @@ class Recettator:
             random.seed(self.seed)
 
         self._data = {
+            'amount': {
+                'main_ingredients': random.randrange(0, 3) - 1,
+                'secondary_ingredients': random.randrange(0, 5) - 1,
+                'seasonings': random.randrange(0, 6) - 1,
+                'methods': random.randrange(0, 4) - 1,
+            },
             'ingredients': {},
             'howto': [],
             'recette': self.db_pick('recettes'),
             'method': self.db_pick('methods'),
-            'people': random.randrange(1, 100)
         }
+
+        # v = max(0, v)
+        for k, v in self._data['amount'].items():
+            self._data['amount'][k] = max(0, v)
 
     def _create_if_not_exists(self):
         if not self._data:
@@ -57,14 +66,23 @@ class Recettator:
         return ' '.join(title_parts)
 
     @property
+    def _people(self):
+        amounts = self.amount
+        stuff_amount = sum(amounts.values())
+        return max(int(stuff_amount / 2), 1)
+
+    @property
     def people(self):
-        people = self._data.get('people')
+        people = self._people
         parts = ['Pour']
-        if people < 20:
+        if random.randrange(0, 100) < 20:
             parts.append('environ')
-        parts.append(str(people))
-        parts.append('personnes')
-        return ' '.join(parts)
+        parts.append(people)
+        if random.randrange(0, 100) < 20:
+            parts.append('a')
+            parts.append(people + random.randrange(1, 4))
+        parts.append('personne(s)')
+        return ' '.join([str(part) for part in parts])
 
     @property
     def infos(self):
