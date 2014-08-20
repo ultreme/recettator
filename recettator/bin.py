@@ -12,7 +12,7 @@ def recettator_cli():
 
     recettator = Recettator(seed=seed)
 
-    print(recettator.title)
+    print('#{} - {}'.format(recettator.seed, recettator.title))
     print(len(recettator.title) * '=')
     print('')
 
@@ -24,7 +24,10 @@ def recettator_cli():
     print('-----------')
     for category, ingredients in recettator.ingredients.items():
         for ingredient in ingredients:
-            print('- {}'.format(ingredient['kind']['name']))
+            print('- {} {}'.format(
+                ingredient.get('unite', '...'),
+                ingredient['kind']['name'],
+            ))
     print('')
 
     print('How-to')

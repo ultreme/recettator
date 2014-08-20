@@ -13,6 +13,9 @@ class Recettator:
 
     def __init__(self, seed=None):
         self._data = None
+        if not seed:
+            seed = random.randrange(10000)
+
         self.seed = seed
         self.dbs = {}
 
@@ -25,11 +28,8 @@ class Recettator:
         db = self.dbs[kind]
         return db.pick(**kwargs)
 
-    def create(self, seed=None):
-        if not seed:
-            seed = self.seed
-        if seed:
-            random.seed(self.seed)
+    def create(self):
+        random.seed(self.seed)
 
         self._data = {
             'amount': {
@@ -42,6 +42,7 @@ class Recettator:
             'howto': [],
             'recette': self.db_pick('recettes'),
             'method': self.db_pick('methods'),
+            'seed': self.seed,
         }
 
         # Picking ingredients
@@ -55,6 +56,15 @@ class Recettator:
                     ingredient = {
                         'kind': self.db_pick(k)
                     }
+                    if k == 'main_ingredients':
+                        rand = random.randrange(3)
+                        # FIXME: gender
+                        if rand == 0:
+                            ingredient['unite'] = 'xx grammes de'
+                        elif rand == 1:
+                            ingredient['unite'] = 'xxx tranches de'
+                        elif rand == 2:
+                            ingredient['unite'] = 'un bon gros'
                     self._data['ingredients'][k].append(ingredient)
 
     def _create_if_not_exists(self):
