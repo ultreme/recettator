@@ -33,10 +33,10 @@ class Recettator:
 
         self._data = {
             'amount': {
-                'main_ingredients': random.randrange(0, 3) - 1,
-                'secondary_ingredients': random.randrange(0, 5) - 1,
-                'seasonings': random.randrange(0, 6) - 1,
-                'methods': random.randrange(0, 4) - 1,
+                'main_ingredients': random.randrange(0, 4) - 1,
+                'secondary_ingredients': random.randrange(0, 6) - 1,
+                'seasonings': random.randrange(0, 7) - 1,
+                'methods': random.randrange(0, 5) - 1,
             },
             'ingredients': {},
             'howto': [],
@@ -60,11 +60,27 @@ class Recettator:
                         rand = random.randrange(3)
                         # FIXME: gender
                         if rand == 0:
-                            ingredient['unite'] = 'xx grammes de'
+                            ingredient['quantity'] = {
+                                'value': unite,
+                                'unite': 'grammes de',
+                            }
                         elif rand == 1:
-                            ingredient['unite'] = 'xxx tranches de'
+                            value = random.randrange(0, 5) + 1
+                            unite = 'tranches de'
+                            ingredient['quantity'] = {
+                                'value': value,
+                                'unite': unite,
+                            }
                         elif rand == 2:
-                            ingredient['unite'] = 'un bon gros'
+                            ingredient['quantity'] = {
+                                'value': 1,
+                                'unite': 'bon gros',
+                                }
+                    if 'quantity' in ingredient:
+                        ingredient['quantity']['str'] = '{} {}'.format(
+                            ingredient['quantity']['value'],
+                            ingredient['quantity']['unite'],
+                        )
                     self._data['ingredients'][k].append(ingredient)
 
     def _create_if_not_exists(self):

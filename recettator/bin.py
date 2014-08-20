@@ -22,10 +22,11 @@ def recettator_cli():
 
     print('Ingredients')
     print('-----------')
-    for category, ingredients in recettator.ingredients.items():
+    for category in ['main_ingredients', 'secondary_ingredients', 'seasonings']:
+        ingredients = recettator.ingredients[category]
         for ingredient in ingredients:
             print('- {} {}'.format(
-                ingredient.get('unite', '...'),
+                ingredient.get('quantity', {}).get('str', ''),
                 ingredient['kind']['name'],
             ))
     print('')
@@ -33,6 +34,11 @@ def recettator_cli():
     print('How-to')
     print('-------')
     print(recettator.howto)
+
+    print('Debug')
+    print('-----')
+    for k, v in recettator.amount.items():
+        print('{} amount: {}'.format(k, v))
 
 if __name__ == '__main__':
     recettator_cli()
