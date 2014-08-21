@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import random
+from random import randrange, seed
 import pkg_resources
 import os
 
@@ -14,7 +14,7 @@ class Recettator:
     def __init__(self, seed=None):
         self._data = None
         if not seed:
-            seed = random.randrange(10000)
+            seed = randrange(10000)
 
         self.seed = seed
         self.dbs = {}
@@ -29,14 +29,14 @@ class Recettator:
         return db.pick(**kwargs)
 
     def create(self):
-        random.seed(self.seed)
+        seed(self.seed)
 
         self._data = {
             'amount': {
-                'main_ingredients': random.randrange(4) - 1,
-                'secondary_ingredients': random.randrange(6) - 1,
-                'seasonings': random.randrange(7) - 1,
-                'methods': random.randrange(5) - 1,
+                'main_ingredients': randrange(4) - 1,
+                'secondary_ingredients': randrange(6) - 1,
+                'seasonings': randrange(7) - 1,
+                'methods': randrange(5) - 1,
             },
             'ingredients': {},
             'howto': [],
@@ -57,15 +57,15 @@ class Recettator:
                         'kind': self.db_pick(k)
                     }
                     if k == 'main_ingredients':
-                        rand = random.randrange(3)
+                        rand = randrange(3)
                         # FIXME: gender
                         if rand == 0:
                             ingredient['quantity'] = {
-                                'value': random.randrange(1, 51) * 10,
+                                'value': randrange(1, 51) * 10,
                                 'unite': 'grammes de',
                             }
                         elif rand == 1:
-                            value = random.randrange(5) + 1
+                            value = randrange(5) + 1
                             unite = 'tranches de'
                             ingredient['quantity'] = {
                                 'value': value,
@@ -77,7 +77,7 @@ class Recettator:
                                 'unite': 'un bon gros',
                                 }
                     elif k == 'secondary_ingredients':
-                        rand = random.randrange(5)
+                        rand = randrange(5)
                         # FIXME: check kind instead of random + randomize
                         if rand == 0:
                             ingredient['quantity'] = {
@@ -86,11 +86,11 @@ class Recettator:
                             }
                         elif rand == 1:
                             ingredient['quantity'] = {
-                                'value': random.randrange(1, 51) * 10,
+                                'value': randrange(1, 51) * 10,
                                 'unite': 'grammes de',
                             }
                         elif rand == 2:
-                            value = random.randrange(1, 21)
+                            value = randrange(1, 21)
                             # if single -> value = 1
                             ingredient['quantity'] = {
                                 'value': value,
@@ -106,11 +106,11 @@ class Recettator:
                                 'value': None,
                                 'unite': 'une poignee de',
                             }
-                        if random.randrange(100) < 10:
+                        if randrange(100) < 10:
                             ingredient['attribute'] = 'frais'
 
                     elif k == 'seasonings':
-                        quantity = (float(random.randrange(31)) + 1) / 10
+                        quantity = (float(randrange(31)) + 1) / 10
                         if quantity > 1:
                             unite = 'litres de'
                         else:
@@ -163,12 +163,12 @@ class Recettator:
     def people(self):
         people = self._people
         parts = ['Pour']
-        if random.randrange(100) < 20:
+        if randrange(100) < 20:
             parts.append('environ')
         parts.append(people)
-        if random.randrange(100) < 20:
+        if randrange(100) < 20:
             parts.append('a')
-            parts.append(people + random.randrange(1, 4))
+            parts.append(people + randrange(1, 4))
         parts.append('personne(s)')
         return ' '.join([str(part) for part in parts])
 
