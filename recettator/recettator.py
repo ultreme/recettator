@@ -33,10 +33,10 @@ class Recettator:
 
         self._data = {
             'amount': {
-                'main_ingredients': random.randrange(0, 4) - 1,
-                'secondary_ingredients': random.randrange(0, 6) - 1,
-                'seasonings': random.randrange(0, 7) - 1,
-                'methods': random.randrange(0, 5) - 1,
+                'main_ingredients': random.randrange(4) - 1,
+                'secondary_ingredients': random.randrange(6) - 1,
+                'seasonings': random.randrange(7) - 1,
+                'methods': random.randrange(5) - 1,
             },
             'ingredients': {},
             'howto': [],
@@ -65,7 +65,7 @@ class Recettator:
                                 'unite': 'grammes de',
                             }
                         elif rand == 1:
-                            value = random.randrange(0, 5) + 1
+                            value = random.randrange(5) + 1
                             unite = 'tranches de'
                             ingredient['quantity'] = {
                                 'value': value,
@@ -106,6 +106,20 @@ class Recettator:
                                 'value': None,
                                 'unite': 'une poignee de',
                             }
+                        if random.randrange(100) < 10:
+                            ingredient['attribute'] = 'frais'
+
+                    elif k == 'seasonings':
+                        quantity = (float(random.randrange(31)) + 1) / 10
+                        if quantity > 1:
+                            unite = 'litres de'
+                        else:
+                            quantity *= 100
+                            unite = 'centilitres de'
+                        ingredient['quantity'] = {
+                            'value': quantity,
+                            'unite': unite,
+                        }
 
                     if 'quantity' in ingredient:
                         quantity = ingredient['quantity']
@@ -149,10 +163,10 @@ class Recettator:
     def people(self):
         people = self._people
         parts = ['Pour']
-        if random.randrange(0, 100) < 20:
+        if random.randrange(100) < 20:
             parts.append('environ')
         parts.append(people)
-        if random.randrange(0, 100) < 20:
+        if random.randrange(100) < 20:
             parts.append('a')
             parts.append(people + random.randrange(1, 4))
         parts.append('personne(s)')

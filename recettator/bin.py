@@ -25,9 +25,10 @@ def recettator_cli():
     for category in ['main_ingredients', 'secondary_ingredients', 'seasonings']:
         ingredients = recettator.ingredients[category]
         for ingredient in ingredients:
-            print('- {} {}'.format(
+            print('- {} {} {}'.format(
                 ingredient.get('quantity', {}).get('str', ''),
                 ingredient['kind']['name'],
+                ingredient.get('attribute', ''),
             ))
     print('')
 
