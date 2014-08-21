@@ -61,7 +61,7 @@ class Recettator:
                         # FIXME: gender
                         if rand == 0:
                             ingredient['quantity'] = {
-                                'value': unite,
+                                'value': random.randrange(1, 51) * 10,
                                 'unite': 'grammes de',
                             }
                         elif rand == 1:
@@ -73,14 +73,53 @@ class Recettator:
                             }
                         elif rand == 2:
                             ingredient['quantity'] = {
-                                'value': 1,
-                                'unite': 'bon gros',
+                                'value': None,
+                                'unite': 'un bon gros',
                                 }
+                    elif k == 'secondary_ingredients':
+                        rand = random.randrange(5)
+                        # FIXME: check kind instead of random + randomize
+                        if rand == 0:
+                            ingredient['quantity'] = {
+                                'value': None,
+                                'unite': 'des',
+                            }
+                        elif rand == 1:
+                            ingredient['quantity'] = {
+                                'value': random.randrange(1, 51) * 10,
+                                'unite': 'grammes de',
+                            }
+                        elif rand == 2:
+                            value = random.randrange(1, 21)
+                            # if single -> value = 1
+                            ingredient['quantity'] = {
+                                'value': value,
+                                'unite': None,
+                            }
+                        elif rand == 3:
+                            ingredient['quantity'] = {
+                                'value': None,
+                                'unite': 'un zeste de',
+                            }
+                        elif rand == 4:
+                            ingredient['quantity'] = {
+                                'value': None,
+                                'unite': 'une poignee de',
+                            }
+
                     if 'quantity' in ingredient:
-                        ingredient['quantity']['str'] = '{} {}'.format(
-                            ingredient['quantity']['value'],
-                            ingredient['quantity']['unite'],
-                        )
+                        quantity = ingredient['quantity']
+                        if quantity['value'] and \
+                           quantity['unite']:
+                            string =  '{} {}'.format(
+                                quantity['value'],
+                                quantity['unite'],
+                            )
+                        elif quantity['value']:
+                            string = str(quantity['value'])
+                        elif quantity['unite']:
+                            string = str(quantity['unite'])
+                        quantity['str'] = string
                     self._data['ingredients'][k].append(ingredient)
 
     def _create_if_not_exists(self):
