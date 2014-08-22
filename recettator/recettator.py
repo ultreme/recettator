@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-from random import randrange, seed
+from random import randrange, seed as set_seed
 import pkg_resources
 import os
+import sys
 
 from .utils import pick_random, pick_random_dict
 from .custom_csv import CustomCSV
@@ -17,11 +18,17 @@ class Recettator:
         if not seed:
             seed = randrange(10000)
 
+        set_seed(seed)
         items = all_items()
+
+        for _ in xrange(30):
+            instance = items.pick(kind='method', gender='any')
+            print(instance)
+        sys.exit(0)
+
         for item in items.availables:
             instance = item()
             print('{} - {}'.format(instance.ingredient_list_str(), instance))
-        import sys
         sys.exit(0)
 
 

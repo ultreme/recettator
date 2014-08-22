@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-__all_items__ = {}
-
-
 class Item(object):
     name = None
     kind = None
