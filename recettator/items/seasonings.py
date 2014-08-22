@@ -6,9 +6,6 @@ from .item import Item
 class Seasoning(Item):
     kind = 'seasoning'
 
-    def ingredient_list_str(self):
-        return '42'
-
 
 class Tisane(Seasoning):
     name = 'tisane'

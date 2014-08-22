@@ -5,6 +5,9 @@ __all_items__ = {}
 
 
 class Item(object):
+    name = None
+    kind = None
+
     def __init__(self):
         pass
 
@@ -12,6 +15,7 @@ class Item(object):
     def attrs(self):
         attrs = {
             'kind': self.kind,
+            'name': self.kind,
         }
         return attrs
 
@@ -24,3 +28,7 @@ class Item(object):
     @property
     def begins_with_voyel(self):
         return self.name[0] in ('a', 'e', 'i', 'o', 'u', 'y')
+
+
+    def ingredient_list_str(self):
+        return self.name

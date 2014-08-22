@@ -7,6 +7,7 @@ from .item import __all_items__ as items
 from .main_ingredients import all_items as main_ingredients_items
 from .secondary_ingredients import all_items as secondary_ingredients_items
 from .seasonings import all_items as seasonings_items
+from .methods import all_items as methods_items
 
 
 class ItemGroup(object):
@@ -19,4 +20,5 @@ def all_items():
     items += main_ingredients_items()
     items += secondary_ingredients_items()
     items += seasonings_items()
+    items += methods_items()
     return ItemGroup(items)

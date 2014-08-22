@@ -9,13 +9,9 @@ class MainIngredient(Item):
     @property
     def attrs(self):
         attrs = super(MainIngredient, self).attrs
-        attrs['name'] = self.name
         attrs['gender'] = self.gender
         attrs['quantity'] = self.quantity
         return attrs
-
-    def ingredient_list_str(self):
-        return '42'
 
 
 class FoieGras(MainIngredient):

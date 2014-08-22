@@ -9,13 +9,10 @@ class SecondaryIngredient(Item):
     @property
     def attrs(self):
         attrs = super(SecondaryIngredient, self).attrs
-        attrs['name'] = self.name
         attrs['gender'] = self.gender
         attrs['quantity'] = self.quantity
         return attrs
 
-    def ingredient_list_str(self):
-        return '42'
 
 
 class Noisettes(SecondaryIngredient):
@@ -273,11 +270,10 @@ class ChampignonsDeParis(SecondaryIngredient):
 def all_items():
     return (
         Noisettes, Amandes, Noix, PommesDeTerre, Dattes, GraintesDePavot,
-        Epices, Tomates, GoussesDeVanille,
-        Canelle, NoixDeCoco, Mascarpone, ConfigureDOrangeAmeres, Orange,
-        Pamplemousse, Farine, Moutarde,
-        Gui, Houx, Ble, Lierre, Anis, Citron, Mais, Oeuf, Beurre, Sel, Riz,
-        Cacao, FromageRape, CubeDeKubor, Reblochon,
-        FloconsDAvoine, Fruits, FruitsSecs, ClousDeGirofle, PetitsPois, Oeufs,
-        BlancsDOeuf, JaunesDOeuf, MorceauxDeSucre, ChampignonsDeParis,
+        Epices, Tomates, GoussesDeVanille, Canelle, NoixDeCoco, Mascarpone,
+        ConfigureDOrangeAmeres, Orange, Pamplemousse, Farine, Moutarde, Gui,
+        Houx, Ble, Lierre, Anis, Citron, Mais, Oeuf, Beurre, Sel, Riz, Cacao,
+        FromageRape, CubeDeKubor, Reblochon, FloconsDAvoine, Fruits, FruitsSecs,
+        ClousDeGirofle, PetitsPois, Oeufs, BlancsDOeuf, JaunesDOeuf,
+        MorceauxDeSucre, ChampignonsDeParis,
     )
