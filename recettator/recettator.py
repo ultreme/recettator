@@ -6,7 +6,7 @@ import os
 
 from .utils import pick_random, pick_random_dict
 from .custom_csv import CustomCSV
-from .items import main_ingredients
+from .items import all_items
 
 
 class Recettator:
@@ -17,7 +17,13 @@ class Recettator:
         if not seed:
             seed = randrange(10000)
 
-        ingredients = main_ingredients()
+        items = all_items()
+        for item in items.availables:
+            instance = item()
+            print('{} - {}'.format(instance.ingredient_list_str(), instance))
+        import sys
+        sys.exit(0)
+
 
         self.seed = seed
         self.dbs = {}
