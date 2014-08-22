@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import random
+
 from .item import Item
 
 
@@ -7,6 +9,66 @@ class MainIngredient(Item):
     kind = 'main_ingredient'
     gender = 'any'
     quantity = 'any'
+
+    def str_in_ingredients_list(self):
+        parts = []
+        if self._picked['value']:
+            parts.append(self._picked['value'])
+        if self._picked['unite']:
+            parts.append(self._picked['unite'])
+        parts.append(self.name)
+        return ' '.join([str(part) for part in parts]).replace("' ", "'")
+
+    def pick_some(self):
+        rand = random.randrange(3)
+
+        value = None
+        unite = None
+
+        if rand == 0:
+            value = random.randrange(1, 51) * 10
+            unite = self._genderize(
+                {'gramme de': {'value': 1, '1st_voyel': False}},
+                {'gramme d\'': {'value': 1, '1st_voyel': True}},
+                {'grammes de': {'1st_voyel': False}},
+                {'grammes d\'': {'1st_voyel': True}},
+                value=value,
+            )
+
+        elif rand == 1:
+            value = random.randrange(1, 6) + 1
+            unite = self._genderize(
+                {'tranche de': {'value': 1, '1st_voyel': False}},
+                {'tranche d\'': {'value': 1, '1st_voyel': True}},
+                {'tranches de': {'1st_voyel': False}},
+                {'tranches d\'': {'1st_voyel': True}},
+                value=value,
+            )
+
+        elif rand == 2:
+            value = None
+            options = [
+                {'un bon gros': {'gender': 'male', 'quantity': 'single'}},
+                {'une assez grosse': {'gender': 'female',
+                                      'quantity': 'single'}},
+                {'plusieurs gros': {'gender': 'male', 'quantity': 'multiple'}},
+            ]
+
+            for beginning in ('une quantite suffisante', 'pas mal',
+                              'quelques morceaux', 'un bon paquet', 'beaucoup'):
+                for ending, constraints in {
+                        'de': {'1st_voyel': False},
+                        'd\'': {'1st_voyel': True},
+                }.items():
+                    key = '{} {}'.format(beginning, ending)
+                    option = {}
+                    option[key] = constraints
+                    options.append(option)
+
+            unite = self._genderize(*options, shuffle=True)
+
+        self._picked['value'] = value
+        self._picked['unite'] = unite
 
     @property
     def attrs(self):

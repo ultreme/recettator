@@ -9,6 +9,10 @@ class SecondaryIngredient(Item):
     quantity = 'any'
 
     @property
+    def picked(self):
+        return self._picked
+
+    @property
     def attrs(self):
         attrs = super(SecondaryIngredient, self).attrs
         attrs['gender'] = self.gender

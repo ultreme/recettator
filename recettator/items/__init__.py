@@ -16,7 +16,7 @@ class ItemGroup(object):
         if shuffle:
             random.shuffle(self.availables)
 
-    def pick(self, recycle_item=False, **kwargs):
+    def pick_random(self, recycle_item=False, **kwargs):
         for item in self.availables:
             found = True
             for k, v in kwargs.items():

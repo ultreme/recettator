@@ -15,6 +15,9 @@ class Method(Item):
         attrs['quantity'] = self.quantity
         return attrs
 
+    def str_in_ingredients_list(self):
+        return None
+
 
 class ALaJuive(Method):
     name = 'a la juive'

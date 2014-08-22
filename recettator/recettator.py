@@ -21,16 +21,16 @@ class Recettator:
         set_seed(seed)
         items = all_items()
 
-        for _ in xrange(30):
-            instance = items.pick(kind='method', gender='any')
-            print(instance)
+        while True:
+            #item = items.pick_random(kind='main_ingredient')
+            item = items.pick_random()
+            if not item:
+                break
+            # print('{} - {}'.format(item.str_in_ingredient_list(), item))
+            string = item.str_in_ingredients_list()
+            if string:
+                print('- {}'.format(string))
         sys.exit(0)
-
-        for item in items.availables:
-            instance = item()
-            print('{} - {}'.format(instance.ingredient_list_str(), instance))
-        sys.exit(0)
-
 
         self.seed = seed
         self.dbs = {}
