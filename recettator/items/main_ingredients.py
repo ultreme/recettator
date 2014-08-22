@@ -5,6 +5,8 @@ from .item import Item
 
 class MainIngredient(Item):
     kind = 'main_ingredient'
+    gender = 'any'
+    quantity = 'any'
 
     @property
     def attrs(self):

@@ -5,6 +5,8 @@ from .item import Item
 
 class SecondaryIngredient(Item):
     kind = 'secondary_ingredient'
+    gender = 'any'
+    quantity = 'any'
 
     @property
     def attrs(self):
@@ -12,7 +14,6 @@ class SecondaryIngredient(Item):
         attrs['gender'] = self.gender
         attrs['quantity'] = self.quantity
         return attrs
-
 
 
 class Noisettes(SecondaryIngredient):
