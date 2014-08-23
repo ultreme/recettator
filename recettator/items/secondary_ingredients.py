@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import random
+
 from .item import Item
 
 
@@ -7,10 +9,47 @@ class SecondaryIngredient(Item):
     kind = 'secondary_ingredient'
     gender = 'any'
     quantity = 'any'
+    is_spreadable = False
+    is_powder = False
+    is_uncountable = False
+    is_by_piece = False
+    is_spice = False
+    is_citrus = False
 
-    @property
-    def picked(self):
-        return self._picked
+    def str_in_ingredients_list(self):
+        parts = []
+        if self._picked['value']:
+            parts.append(self._picked['value'])
+        if self._picked['unite']:
+            parts.append(self._picked['unite'])
+        parts.append(self.name)
+        return ' '.join([str(part) for part in parts]).replace("' ", "'")
+
+    def pick_some(self):
+        value = None
+        unite = None
+
+        if self.is_uncountable:
+            value = 'uncountable'
+
+        elif self.is_powder:
+            value = 'powder'
+
+        elif self.is_by_piece:
+            value = 'by piece'
+
+        elif self.is_spice:
+            value = 'spice'
+
+        elif self.is_citrus:
+            value = 'citrus'
+
+        if value:
+            value += ' ###'
+            value = '### ' + value
+
+        self._picked['value'] = value
+        self._picked['unite'] = unite
 
     @property
     def attrs(self):
@@ -24,138 +63,160 @@ class Noisettes(SecondaryIngredient):
     name = 'noisettes'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class Amandes(SecondaryIngredient):
     name = 'amandes'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class Noix(SecondaryIngredient):
     name = 'noix'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class PommesDeTerre(SecondaryIngredient):
     name = 'pommes de terre'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class Dattes(SecondaryIngredient):
     name = 'dattes'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class GraintesDePavot(SecondaryIngredient):
     name = 'graintes de pavot'
     gender = 'female'
     quantity = 'multiple'
+    is_powder = True
 
 
 class Epices(SecondaryIngredient):
     name = 'epices'
     gender = 'female'
     quantity = 'multiple'
+    is_powder = True
 
 
 class Tomates(SecondaryIngredient):
     name = 'tomates'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class GoussesDeVanille(SecondaryIngredient):
     name = 'gousses de vanille'
     gender = 'female'
     quantity = 'multiple'
+    is_by_piece = True
 
 
 class Canelle(SecondaryIngredient):
     name = 'canelle'
     gender = 'female'
     quantity = 'single'
+    is_poweder = True
 
 
 class NoixDeCoco(SecondaryIngredient):
     name = 'noix de coco'
     gender = 'female'
-    quantity = 'single'
+    is_by_piece = True
 
 
 class Mascarpone(SecondaryIngredient):
     name = 'mascarpone'
     gender = 'female'
     quantity = 'single'
+    is_spreadable = True
 
 
-class ConfigureDOrangeAmeres(SecondaryIngredient):
+class ConfitureDOrangeAmeres(SecondaryIngredient):
     name = 'confiture d\'orange ameres'
     gender = 'female'
     quantity = 'single'
+    is_spreadable = True
 
 
 class Orange(SecondaryIngredient):
     name = 'orange'
     gender = 'female'
     quantity = 'single'
+    is_citrus = True
 
 
 class Pamplemousse(SecondaryIngredient):
     name = 'pamplemousse'
     gender = 'female'
     quantity = 'single'
+    is_citrus = True
 
 
 class Farine(SecondaryIngredient):
     name = 'farine'
     gender = 'female'
     quantity = 'single'
+    is_powder = True
 
 
 class Moutarde(SecondaryIngredient):
     name = 'moutarde'
     gender = 'female'
     quantity = 'single'
+    is_spreadable = True
 
 
 class Gui(SecondaryIngredient):
     name = 'gui'
     gender = 'male'
     quantity = 'single'
+    is_uncoutable = True
 
 
 class Houx(SecondaryIngredient):
     name = 'houx'
     gender = 'male'
     quantity = 'single'
+    is_uncoutable = True
 
 
 class Ble(SecondaryIngredient):
     name = 'ble'
     gender = 'male'
     quantity = 'single'
+    is_uncoutable = True
 
 
 class Lierre(SecondaryIngredient):
     name = 'lierre'
     gender = 'male'
     quantity = 'single'
+    is_uncoutable = True
 
 
 class Anis(SecondaryIngredient):
     name = 'anis'
     gender = 'male'
     quantity = 'single'
+    is_powder = True
 
 
 class Citron(SecondaryIngredient):
     name = 'citron'
     gender = 'male'
     quantity = 'single'
+    is_citrus = True
 
 
 class Mais(SecondaryIngredient):
@@ -174,12 +235,14 @@ class Beurre(SecondaryIngredient):
     name = 'beurre'
     gender = 'male'
     quantity = 'single'
+    is_spreadable = True
 
 
 class Sel(SecondaryIngredient):
     name = 'sel'
     gender = 'male'
     quantity = 'single'
+    is_spice = True
 
 
 class Riz(SecondaryIngredient):
@@ -210,6 +273,7 @@ class Reblochon(SecondaryIngredient):
     name = 'reblochon'
     gender = 'male'
     quantity = 'single'
+    is_spreadable = True
 
 
 class FloconsDAvoine(SecondaryIngredient):
@@ -276,7 +340,7 @@ def all_items():
     return (
         Noisettes, Amandes, Noix, PommesDeTerre, Dattes, GraintesDePavot,
         Epices, Tomates, GoussesDeVanille, Canelle, NoixDeCoco, Mascarpone,
-        ConfigureDOrangeAmeres, Orange, Pamplemousse, Farine, Moutarde, Gui,
+        ConfitureDOrangeAmeres, Orange, Pamplemousse, Farine, Moutarde, Gui,
         Houx, Ble, Lierre, Anis, Citron, Mais, Oeuf, Beurre, Sel, Riz, Cacao,
         FromageRape, CubeDeKubor, Reblochon, FloconsDAvoine, Fruits, FruitsSecs,
         ClousDeGirofle, PetitsPois, Oeufs, BlancsDOeuf, JaunesDOeuf,

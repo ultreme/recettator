@@ -22,8 +22,8 @@ class Recettator:
         items = all_items()
 
         while True:
-            #item = items.pick_random(kind='main_ingredient')
-            item = items.pick_random()
+            item = items.pick_random(kind='secondary_ingredient')
+            #item = items.pick_random()
             if not item:
                 break
             # print('{} - {}'.format(item.str_in_ingredient_list(), item))
