@@ -107,6 +107,12 @@ class SecondaryIngredient(Item):
         attrs = super(SecondaryIngredient, self).attrs
         attrs['gender'] = self.gender
         attrs['quantity'] = self.quantity
+        attrs['is_spreadable'] = self.is_spreadable
+        attrs['is_powder'] = self.is_powder
+        attrs['is_uncountable'] = self.is_uncountable
+        attrs['is_by_piece'] = self.is_by_piece
+        attrs['is_spice'] = self.is_spice
+        attrs['is_citrus'] = self.is_citrus
         return attrs
 
 
