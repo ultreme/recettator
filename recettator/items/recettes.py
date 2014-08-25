@@ -1,22 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from .item import Item
+from .item import GenderizedItem
 
 
-class Recette(Item):
+class Recette(GenderizedItem):
     kind = 'recette'
-    gender = 'any'
-    quantity = 'any'
 
     def str_in_ingredients_list(self):
         return None
-
-    @property
-    def attrs(self):
-        attrs = super(Recette, self).attrs
-        attrs['gender'] = self.gender
-        attrs['quantity'] = self.quantity
-        return attrs
 
 
 class Tranches(Recette):

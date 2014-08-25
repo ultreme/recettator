@@ -48,6 +48,18 @@ class Item(object):
     def _first_voyel(self):
         return self.name[0] in ('a', 'e', 'i', 'o', 'u', 'y')
 
+
+class GenderizedItem(Item):
+    gender = 'any'
+    quantity = 'any'
+
+    @property
+    def attrs(self):
+        attrs = super(GenderizedItem, self).attrs
+        attrs['gender'] = self.gender
+        attrs['quantity'] = self.quantity
+        return attrs
+
     def _genderize(self, *args, **kwargs):
         shuffle = 'shuffle' in kwargs and kwargs['shuffle']
 

@@ -2,13 +2,11 @@
 
 import random
 
-from .item import Item
+from .item import GenderizedItem
 
 
-class SecondaryIngredient(Item):
+class SecondaryIngredient(GenderizedItem):
     kind = 'secondary_ingredient'
-    gender = 'any'
-    quantity = 'any'
     is_spreadable = False
     is_powder = False
     is_uncountable = False
@@ -105,8 +103,6 @@ class SecondaryIngredient(Item):
     @property
     def attrs(self):
         attrs = super(SecondaryIngredient, self).attrs
-        attrs['gender'] = self.gender
-        attrs['quantity'] = self.quantity
         attrs['is_spreadable'] = self.is_spreadable
         attrs['is_powder'] = self.is_powder
         attrs['is_uncountable'] = self.is_uncountable

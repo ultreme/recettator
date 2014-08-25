@@ -2,13 +2,11 @@
 
 import random
 
-from .item import Item
+from .item import GenderizedItem
 
 
-class Seasoning(Item):
+class Seasoning(GenderizedItem):
     kind = 'seasoning'
-    gender = 'any'
-    quantity = 'any'
 
     def str_in_ingredients_list(self):
         parts = []
@@ -37,13 +35,6 @@ class Seasoning(Item):
         )
         self._picked['value'] = value
         self._picked['unite'] = unite
-
-    @property
-    def attrs(self):
-        attrs = super(Seasoning, self).attrs
-        attrs['gender'] = self.gender
-        attrs['quantity'] = self.quantity
-        return attrs
 
 
 class Tisane(Seasoning):
