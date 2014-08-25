@@ -6,11 +6,8 @@ from .item import GenderizedItem
 class Recette(GenderizedItem):
     kind = 'recette'
 
-    def str_in_ingredients_list(self):
-        return None
-
     def str_in_title(self):
-        return self.name
+        return [self.name]
 
 
 class Tranches(Recette):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import random
+from ..utils import parts_to_string
 
 
 def genderization(options, constraints):
@@ -27,21 +28,9 @@ class Item(object):
         pass
 
     def str_in_ingredients_list(self):
-        parts = self._str_in_ingredients_list()
-        if parts and len(parts):
-            return ' '.join([str(part) for part in parts]).replace("' ", "'")
-        return None
-
-    def str_in_title(self):
-        parts = self._str_in_title()
-        if parts and len(parts):
-            return ' '.join([str(part) for part in parts]).replace("' ", "'")
-        return None
-
-    def _str_in_ingredients_list(self):
         return []
 
-    def _str_in_title(self):
+    def str_in_title(self, left):
         return []
 
     @property

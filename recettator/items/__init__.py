@@ -3,6 +3,8 @@
 import random
 import re
 
+from ..utils import parts_to_string
+
 from .main_ingredients import all_items as main_ingredients_items
 from .secondary_ingredients import all_items as secondary_ingredients_items
 from .seasonings import all_items as seasonings_items
@@ -48,6 +50,27 @@ class ItemGroup(object):
                     self.availables.append(item)
                 return item()
         return None
+
+    def get_title(self):
+        for i in xrange(42):
+            recette = self.pick_random(kind='recette', recycle_item=True)
+            main_ingredient = self.pick_random(kind='main_ingredient',
+                                                recycle_item=True)
+            secondary_ingredient = self.pick_random(
+                kind='secondary_ingredient',
+                recycle_item=True
+            )
+            seasoning = self.pick_random(kind='seasoning',
+                                          recycle_item=True)
+            method = self.pick_random(kind='method',
+                                       recycle_item=True)
+
+            parts = []
+            parts += recette.str_in_title()
+            parts += main_ingredient.str_in_title(recette)
+            parts += secondary_ingredient.str_in_title(main_ingredient)
+
+            print(parts_to_string(parts))
 
 
 def all_items():

@@ -15,7 +15,7 @@ class Seasoning(GenderizedItem):
         if self._picked['unite']:
             parts.append(self._picked['unite'])
         parts.append(self.name)
-        return ' '.join([str(part) for part in parts]).replace("' ", "'")
+        return parts
 
     def pick_some(self):
         value = None

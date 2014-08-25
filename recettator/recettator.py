@@ -5,7 +5,6 @@ import pkg_resources
 import os
 import sys
 
-from .utils import pick_random, pick_random_dict
 from .custom_csv import CustomCSV
 from .items import all_items
 
@@ -21,16 +20,7 @@ class Recettator:
         set_seed(seed)
         items = all_items()
 
-        while True:
-            #item = items.pick_random()
-            item = items.pick_random(kind='main_ingredient')
-            if not item:
-                break
-            # print('{} - {}'.format(item.str_in_ingredient_list(), item))
-            #string = item.str_in_ingredients_list()
-            string = item.str_in_title()
-            if string:
-                print('- {}'.format(string))
+        print(items.get_title())
         sys.exit(0)
 
         self.seed = seed

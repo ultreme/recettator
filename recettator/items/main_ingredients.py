@@ -8,7 +8,7 @@ from .item import GenderizedItem
 class MainIngredient(GenderizedItem):
     kind = 'main_ingredient'
 
-    def _str_in_ingredients_list(self):
+    def str_in_ingredients_list(self):
         parts = []
         if self._picked['value']:
             parts.append(self._picked['value'])
@@ -17,15 +17,32 @@ class MainIngredient(GenderizedItem):
         parts.append(self.name)
         return parts
 
-    def _str_in_title(self):
-        # FIXME: bad genderization
+    def str_in_title(self, left):
         parts = []
-        parts.append(self._genderize(
-            {'a l\'': {'1st_voyel': True}},
-            {'au': {'gender': 'male', '1st_voyel': False}},
-            {'a la': {'gender': 'female'}},
-            {'aux': {'quantity': 'multiple'}},
-        ))
+
+        if left:
+            switch = random.randrange(2)
+        else:
+            switch = 0
+
+        if switch == 0:
+            parts.append(self._genderize(
+                {'a l\'': {'1st_voyel': True}},
+                {'au': {'gender': 'male', '1st_voyel': False}},
+                {'a la': {'gender': 'female'}},
+                {'aux': {'quantity': 'multiple'}},
+            ))
+        elif switch == 1:
+            parts.append(left._genderize(
+                {'assorti': {'gender': 'male', 'quantity': 'single'}},
+                {'assortie': {'gender': 'female', 'quantity': 'single'}},
+                {'assortis': {'gender': 'male', 'quantity': 'multiple'}},
+                {'assorties': {'gender': 'female', 'quantity': 'multiple'}},
+            ))
+            parts.append(self._genderize(
+                {'de': {'1st_voyel': False}},
+                {'d\'': {'1st_voyel': True}},
+            ))
         parts.append(self.name)
         if random.randrange(2):
             suffixes = [

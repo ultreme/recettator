@@ -21,7 +21,12 @@ class SecondaryIngredient(GenderizedItem):
         if self._picked['unite']:
             parts.append(self._picked['unite'])
         parts.append(self.name)
-        return ' '.join([str(part) for part in parts]).replace("' ", "'")
+        return parts
+
+    def str_in_title(self, left):
+        parts = []
+
+        return parts
 
     def pick_some(self):
         value = None
