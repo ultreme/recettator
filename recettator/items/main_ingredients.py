@@ -8,25 +8,47 @@ from .item import GenderizedItem
 class MainIngredient(GenderizedItem):
     kind = 'main_ingredient'
 
-    def str_in_ingredients_list(self):
+    def _str_in_ingredients_list(self):
         parts = []
         if self._picked['value']:
             parts.append(self._picked['value'])
         if self._picked['unite']:
             parts.append(self._picked['unite'])
         parts.append(self.name)
-        return ' '.join([str(part) for part in parts]).replace("' ", "'")
+        return parts
 
-    def str_in_title(self):
+    def _str_in_title(self):
         # FIXME: bad genderization
-        left = self._genderize(
+        parts = []
+        parts.append(self._genderize(
             {'a l\'': {'1st_voyel': True}},
             {'au': {'gender': 'male', '1st_voyel': False}},
             {'a la': {'gender': 'female'}},
             {'aux': {'quantity': 'multiple'}},
-        )
-        # FIXME: too much spaces
-        return '{} {}'.format(left, self.name)
+        ))
+        parts.append(self.name)
+        if random.randrange(2):
+            suffixes = [
+                ['glace', 'glacee', 'glaces', 'glacees'],
+                ['poele', 'poelee', 'poeles', 'poelees'],
+                ['farci', 'farcie', 'farcis', 'farcies'],
+                ['roti', 'rotie', 'rotis', 'roties'],
+                ['chaud', 'chaude', 'chauds', 'chaudes'],
+                ['decoupe', 'decoupee', 'decoupes', 'decoupees'],
+                ['grille', 'grillee', 'grilles', 'grillees'],
+                ['battu', 'battue', 'battus', 'battues'],
+            ]
+            suffix = suffixes[random.randrange(len(suffixes))]
+            options = {}
+            options[suffix[0]] = {'quantity': 'single', 'gender': 'male'}
+            options[suffix[1]] = {'quantity': 'single', 'gender': 'female'}
+            options[suffix[2]] = {'quantity': 'multiple', 'gender': 'male'}
+            options[suffix[3]] = {'quantity': 'multiple', 'gender': 'female'}
+            options = [{k: v} for k, v in options.items()]
+            parts.append(self._genderize(
+                *options
+            ))
+        return parts
 
     def pick_some(self):
         rand = random.randrange(3)
