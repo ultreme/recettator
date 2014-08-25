@@ -30,26 +30,74 @@ class SecondaryIngredient(Item):
         unite = None
 
         if self.is_uncountable:
-            value = 'uncountable'
+            unite = self._genderize(
+                {'des': {'quantity': 'plural'}},
+                {'de l\'': {'1st_voyel': True}},
+                {'du': {'gender': 'male'}},
+                {'de la': {'gender': 'female'}},
+                value=value,
+            )
 
         elif self.is_powder:
-            value = 'powder'
+            value = random.randrange(1, 51) * 10
+            unite = self._genderize(
+                {'gramme de': {'value': 1, '1st_voyel': False}},
+                {'gramme d\'': {'value': 1, '1st_voyel': True}},
+                {'grammes de': {'1st_voyel': False}},
+                {'grammes d\'': {'1st_voyel': True}},
+                value=value,
+            )
 
         elif self.is_by_piece:
-            value = 'by piece'
+            if self.quantity == 'single':
+                value = 1
+            else:
+                value = random.randrange(1, 21)
 
         elif self.is_spice:
-            value = 'spice'
+            options = []
+            for beginning in ('une poignee', 'une dosette', 'un verre',
+                              'une pincee'):
+                for ending, constraints in {
+                        'de': {'1st_voyel': False},
+                        'd\'': {'1st_voyel': True},
+                }.items():
+                    key = '{} {}'.format(beginning, ending)
+                    option = {}
+                    option[key] = constraints
+                    options.append(option)
 
-        elif self.is_citrus:
-            value = 'citrus'
+            unite = self._genderize(*options, shuffle=True)
 
         elif self.is_spreadable:
-            value = 'spreadable'
+            options = []
+            for beginning in ('une noix', 'un morceau', 'une dose',
+                              'une cuillere a cafe'):
+                for ending, constraints in {
+                        'de': {'1st_voyel': False},
+                        'd\'': {'1st_voyel': True},
+                }.items():
+                    key = '{} {}'.format(beginning, ending)
+                    option = {}
+                    option[key] = constraints
+                    options.append(option)
 
-        if value:
-            value += ' ###'
-            value = '### ' + value
+            unite = self._genderize(*options, shuffle=True)
+
+        elif self.is_citrus:
+            options = []
+            for beginning in ('un zeste', 'un quartier', 'une pelure',
+                              'de la pulpe'):
+                for ending, constraints in {
+                        'de': {'1st_voyel': False},
+                        'd\'': {'1st_voyel': True},
+                }.items():
+                    key = '{} {}'.format(beginning, ending)
+                    option = {}
+                    option[key] = constraints
+                    options.append(option)
+
+            unite = self._genderize(*options, shuffle=True)
 
         self._picked['value'] = value
         self._picked['unite'] = unite
