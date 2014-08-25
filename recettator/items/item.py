@@ -27,7 +27,10 @@ class Item(object):
         pass
 
     def str_in_ingredients_list(self):
-        return self.name
+        return None
+
+    def str_in_title(self):
+        return None
 
     @property
     def attrs(self):

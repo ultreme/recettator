@@ -17,6 +17,17 @@ class MainIngredient(GenderizedItem):
         parts.append(self.name)
         return ' '.join([str(part) for part in parts]).replace("' ", "'")
 
+    def str_in_title(self):
+        # FIXME: bad genderization
+        left = self._genderize(
+            {'a l\'': {'1st_voyel': True}},
+            {'au': {'gender': 'male', '1st_voyel': False}},
+            {'a la': {'gender': 'female'}},
+            {'aux': {'quantity': 'multiple'}},
+        )
+        # FIXME: too much spaces
+        return '{} {}'.format(left, self.name)
+
     def pick_some(self):
         rand = random.randrange(3)
 

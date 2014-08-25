@@ -9,6 +9,9 @@ class Recette(GenderizedItem):
     def str_in_ingredients_list(self):
         return None
 
+    def str_in_title(self):
+        return self.name
+
 
 class Tranches(Recette):
     name = 'tranches'
