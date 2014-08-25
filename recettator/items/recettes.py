@@ -8,6 +8,9 @@ class Recette(Item):
     gender = 'any'
     quantity = 'any'
 
+    def str_in_ingredients_list(self):
+        return None
+
     @property
     def attrs(self):
         attrs = super(Recette, self).attrs

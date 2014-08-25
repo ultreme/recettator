@@ -1,10 +1,49 @@
 # -*- coding: utf-8 -*-
 
+import random
+
 from .item import Item
 
 
 class Seasoning(Item):
     kind = 'seasoning'
+    gender = 'any'
+    quantity = 'any'
+
+    def str_in_ingredients_list(self):
+        parts = []
+        if self._picked['value']:
+            parts.append(self._picked['value'])
+        if self._picked['unite']:
+            parts.append(self._picked['unite'])
+        parts.append(self.name)
+        return ' '.join([str(part) for part in parts]).replace("' ", "'")
+
+    def pick_some(self):
+        value = None
+        unite = None
+
+        value = random.randrange(1, 31) / 10.0
+        unite_base = 'litre'
+        if value < 1:
+            unite_base = 'centilitre'
+            value *= 100
+        unite = self._genderize(
+            {'{} de'.format(unite_base): {'value': 1, '1st_voyel': False}},
+            {'{} d\''.format(unite_base): {'value': 1, '1st_voyel': True}},
+            {'{}s de'.format(unite_base): {'1st_voyel': False}},
+            {'{}s d\''.format(unite_base): {'1st_voyel': True}},
+            value=value,
+        )
+        self._picked['value'] = value
+        self._picked['unite'] = unite
+
+    @property
+    def attrs(self):
+        attrs = super(Seasoning, self).attrs
+        attrs['gender'] = self.gender
+        attrs['quantity'] = self.quantity
+        return attrs
 
 
 class Tisane(Seasoning):
