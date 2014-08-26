@@ -26,12 +26,13 @@ class SecondaryIngredient(GenderizedItem):
     def str_in_title(self, left):
         parts = []
         if left.kind in ('main_ingredient', 'secondary_ingredient'):
-            parts.append('et')
+            if random.randrange(10) < 5:
+                parts.append('et')
         parts.append(self._genderize(
+            {'aux': {'quantity': 'multiple'}},
             {'a l\'': {'1st_voyel': True}},
             {'au': {'gender': 'male', '1st_voyel': False}},
             {'a la': {'gender': 'female'}},
-            {'aux': {'quantity': 'multiple'}},
         ))
         parts.append(self.name)
         return parts
