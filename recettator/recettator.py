@@ -35,7 +35,7 @@ class Recettator:
                 ('main_ingredient', randrange(5) - 1),
                 ('secondary_ingredient', randrange(5) - 1),
                 ('seasoning', randrange(6) - 1),
-                ('method', randrange(5) - 1),
+                ('method', int(randrange(10) < 4)),
             ])
 
             for k, v in self._amounts.items():

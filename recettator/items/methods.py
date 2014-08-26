@@ -15,6 +15,9 @@ class Method(Item):
         attrs['quantity'] = self.quantity
         return attrs
 
+    def str_in_title(self, left):
+        return [self.name]
+
 
 class ALaJuive(Method):
     name = 'a la juive'
