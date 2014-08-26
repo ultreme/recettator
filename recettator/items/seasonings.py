@@ -46,6 +46,20 @@ class Seasoning(GenderizedItem):
         self._picked['value'] = value
         self._picked['unite'] = unite
 
+    @property
+    def steps(self):
+        steps = []
+
+        step = self._genderize(
+            {'remuez {} dans un pot en terre cuite': {}},
+            {'versez doucement {} et melangez suffisement': {}},
+            shuffle=True,
+        )
+        step = step.format(self.name_with_prefix)
+        steps.append(step)
+
+        return steps
+
 
 class Tisane(Seasoning):
     name = 'tisane'

@@ -51,6 +51,8 @@ class Recettator:
         steps = []
         for item in self.items:
             steps += item.steps
+        steps.append('rassemblez tous les ingredients dans un grand plat et '
+                     'consommez vite !')
         return steps
 
     @property

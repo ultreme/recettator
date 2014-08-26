@@ -41,6 +41,25 @@ class SecondaryIngredient(GenderizedItem):
         parts.append(self.name)
         return parts
 
+    @property
+    def steps(self):
+        steps = []
+
+        step = self._genderize(
+            {'rechauffez {} a feu doux': {}},
+            {'placez {} au bain-marie quelques minutes': {}},
+            {'selon votre gout, vous pouvez voiler {} d\'un fond de sucre': {}},
+            {'ajoutez {} par dessus': {}},
+            {'faites cuire {} dans un wok': {}},
+            {'faites chauffer {} et pensez a vanner pendant le '
+             'refroidissemnt': {}},
+            shuffle=True,
+        )
+        step = step.format(self.name_with_prefix)
+        steps.append(step)
+
+        return steps
+
     def pick_some(self):
         value = None
         unite = None

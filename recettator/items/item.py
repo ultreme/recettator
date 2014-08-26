@@ -65,6 +65,22 @@ class Item(object):
     def steps(self):
         return []
 
+    @property
+    def name_prefix(self):
+        return [self._genderize(
+            {'les': {'quantity': 'multiple'}},
+            {'l\'': {'1st_voyel': True}},
+            {'le': {'gender': 'male'}},
+            {'la': {'gender': 'female'}},
+        )]
+
+    @property
+    def name_with_prefix(self):
+        parts = []
+        parts += self.name_prefix
+        parts.append(self.name)
+        return parts_to_string(parts)
+
 
 class GenderizedItem(Item):
     gender = 'any'
