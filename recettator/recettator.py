@@ -49,6 +49,8 @@ class Recettator:
     @property
     def steps(self):
         steps = []
+        for item in self.items:
+            steps += item.steps
         return steps
 
     @property

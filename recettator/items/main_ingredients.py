@@ -2,6 +2,8 @@
 
 import random
 
+from ..utils import parts_to_string
+
 from .item import GenderizedItem
 
 
@@ -11,6 +13,39 @@ class MainIngredient(GenderizedItem):
     @property
     def people(self):
         return 0.7
+
+    @property
+    def name_prefix(self):
+        return [self._genderize(
+            {'les': {'quantity': 'multiple'}},
+            {'l\'': {'1st_voyel': True}},
+            {'le': {'gender': 'male'}},
+            {'la': {'gender': 'female'}},
+        )]
+
+    @property
+    def name_with_prefix(self):
+        parts = []
+        parts += self.name_prefix
+        parts.append(self.name)
+        return parts_to_string(parts)
+
+    @property
+    def steps(self):
+        steps = []
+
+        step = self._genderize(
+            {'remuez {} dans un pot en terre cuite': {}},
+            {'decoupez {} en fines petits tranches': {}},
+            {'rechauffez {} a feu doux': {}},
+            {'placez {} au bain-marie quelques minutes': {}},
+            {'selon votre gout, vous pouvez voiler {} d\'un fond de sucre': {}},
+            shuffle=True,
+        )
+        step = step.format(self.name_with_prefix)
+        steps.append(step)
+
+        return steps
 
     def str_in_ingredients_list(self):
         parts = []
@@ -31,10 +66,10 @@ class MainIngredient(GenderizedItem):
 
         if switch == 0:
             parts.append(self._genderize(
+                {'aux': {'quantity': 'multiple'}},
                 {'a l\'': {'1st_voyel': True}},
                 {'au': {'gender': 'male', '1st_voyel': False}},
                 {'a la': {'gender': 'female'}},
-                {'aux': {'quantity': 'multiple'}},
             ))
         elif switch == 1:
             parts.append(left._genderize(

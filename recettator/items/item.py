@@ -61,6 +61,10 @@ class Item(object):
     def people(self):
         return 0
 
+    @property
+    def steps(self):
+        return []
+
 
 class GenderizedItem(Item):
     gender = 'any'
