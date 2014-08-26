@@ -37,6 +37,10 @@ class Seasoning(GenderizedItem):
             {'{}s d\''.format(unite_base): {'1st_voyel': True}},
             value=value,
         )
+
+        if value and value == int(value):
+            value = int(value)
+
         self._picked['value'] = value
         self._picked['unite'] = unite
 

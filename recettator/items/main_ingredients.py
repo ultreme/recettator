@@ -119,6 +119,9 @@ class MainIngredient(GenderizedItem):
 
             unite = self._genderize(*options, shuffle=True)
 
+        if value and value == int(value):
+            value = int(value)
+
         self._picked['value'] = value
         self._picked['unite'] = unite
 

@@ -17,6 +17,7 @@ def recettator_cli():
     print('')
 
     print(recettator.people)
+    print('')
 
     # for k, v in recettator.infos.items():
     #     print('{}: {}'.format(k, v))
