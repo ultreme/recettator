@@ -8,6 +8,10 @@ from .item import GenderizedItem
 class Seasoning(GenderizedItem):
     kind = 'seasoning'
 
+    @property
+    def people(self):
+        return 0.1
+
     def str_in_ingredients_list(self):
         parts = []
         if self._picked['value']:

@@ -14,6 +14,10 @@ class SecondaryIngredient(GenderizedItem):
     is_spice = False
     is_citrus = False
 
+    @property
+    def people(self):
+        return 0.4
+
     def str_in_ingredients_list(self):
         parts = []
         if self._picked['value']:

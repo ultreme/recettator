@@ -6,7 +6,9 @@ from .item import GenderizedItem
 class Recette(GenderizedItem):
     kind = 'recette'
 
-    def str_in_title(self):
+    def str_in_title(self, left=None):
+        if left:
+            raise NotImplementedError()
         return [self.name]
 
 

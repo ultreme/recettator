@@ -13,33 +13,29 @@ def recettator_cli():
     recettator = Recettator(seed=seed)
 
     print('#{} - {}'.format(recettator.seed, recettator.title))
-    print(len(recettator.title) * '=')
+    print((len(recettator.title) + 4 + len(str(recettator.seed))) * '=')
     print('')
 
-    for k, v in recettator.infos.items():
-        print('{}: {}'.format(k, v))
-    print('')
+    print(recettator.people)
+
+    # for k, v in recettator.infos.items():
+    #     print('{}: {}'.format(k, v))
+    # print('')
 
     print('Ingredients')
     print('-----------')
-    for category in ['main_ingredients', 'secondary_ingredients', 'seasonings']:
-        ingredients = recettator.ingredients[category]
-        for ingredient in ingredients:
-            print('- {} {} {}'.format(
-                ingredient.get('quantity', {}).get('str', ''),
-                ingredient['kind']['name'],
-                ingredient.get('attribute', ''),
-            ))
+    for ingredient in recettator.ingredients:
+        print('- {}'.format(ingredient))
     print('')
 
-    print('How-to')
-    print('-------')
-    print(recettator.howto)
+    # print('How-to')
+    # print('-------')
+    # print(recettator.howto)
 
-    print('Debug')
-    print('-----')
-    for k, v in recettator.amount.items():
-        print('{} amount: {}'.format(k, v))
+    # print('Debug')
+    # print('-----')
+    # for k, v in recettator.amount.items():
+    #     print('{} amount: {}'.format(k, v))
 
 if __name__ == '__main__':
     recettator_cli()
