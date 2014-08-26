@@ -26,10 +26,12 @@ class Seasoning(GenderizedItem):
         unite = None
 
         value = random.randrange(1, 31) / 10.0
+
         unite_base = 'litre'
         if value < 1:
             unite_base = 'centilitre'
             value *= 100
+
         unite = self._genderize(
             {'{} de'.format(unite_base): {'value': 1, '1st_voyel': False}},
             {'{} d\''.format(unite_base): {'value': 1, '1st_voyel': True}},

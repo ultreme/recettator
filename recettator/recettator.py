@@ -46,120 +46,10 @@ class Recettator:
 
         return self._items
 
-    def create(self):
-        # Picking ingredients
-        for k, v in self._data['amount'].items():
-            # v = max(0, v)
-            self._data['amount'][k] = v = max(0, v)
-            if not k in self._data['ingredients']:
-                self._data['ingredients'][k] = []
-
-                for i in xrange(v):
-                    ingredient = {
-                        'kind': self.db_pick(k)
-                    }
-                    if k == 'main_ingredients':
-                        rand = randrange(3)
-                        # FIXME: gender
-                        if rand == 0:
-                            ingredient['quantity'] = {
-                                'value': randrange(1, 51) * 10,
-                                'unite': 'grammes de',
-                            }
-                        elif rand == 1:
-                            value = randrange(5) + 1
-                            unite = 'tranches de'
-                            ingredient['quantity'] = {
-                                'value': value,
-                                'unite': unite,
-                            }
-                        elif rand == 2:
-                            ingredient['quantity'] = {
-                                'value': None,
-                                'unite': 'un bon gros',
-                                }
-                    elif k == 'secondary_ingredients':
-                        rand = randrange(5)
-                        # FIXME: check kind instead of random + randomize
-                        if rand == 0:
-                            ingredient['quantity'] = {
-                                'value': None,
-                                'unite': 'des',
-                            }
-                        elif rand == 1:
-                            ingredient['quantity'] = {
-                                'value': randrange(1, 51) * 10,
-                                'unite': 'grammes de',
-                            }
-                        elif rand == 2:
-                            value = randrange(1, 21)
-                            # if single -> value = 1
-                            ingredient['quantity'] = {
-                                'value': value,
-                                'unite': None,
-                            }
-                        elif rand == 3:
-                            ingredient['quantity'] = {
-                                'value': None,
-                                'unite': 'un zeste de',
-                            }
-                        elif rand == 4:
-                            ingredient['quantity'] = {
-                                'value': None,
-                                'unite': 'une poignee de',
-                            }
-                        if randrange(100) < 10:
-                            ingredient['attribute'] = 'frais'
-
-                    elif k == 'seasonings':
-                        quantity = (float(randrange(31)) + 1) / 10
-                        if quantity > 1:
-                            unite = 'litres de'
-                        else:
-                            quantity *= 100
-                            unite = 'centilitres de'
-                        ingredient['quantity'] = {
-                            'value': quantity,
-                            'unite': unite,
-                        }
-
-                    if 'quantity' in ingredient:
-                        quantity = ingredient['quantity']
-                        if quantity['value'] and \
-                           quantity['unite']:
-                            string =  '{} {}'.format(
-                                quantity['value'],
-                                quantity['unite'],
-                            )
-                        elif quantity['value']:
-                            string = str(quantity['value'])
-                        elif quantity['unite']:
-                            string = str(quantity['unite'])
-                        quantity['str'] = string
-                    self._data['ingredients'][k].append(ingredient)
-
-    """
-    def get_title(self):
-        for i in xrange(42):
-            recette = self.pick_random(kind='recette', recycle_item=True)
-            main_ingredient = self.pick_random(kind='main_ingredient',
-                                                recycle_item=True)
-            secondary_ingredient = self.pick_random(
-                kind='secondary_ingredient',
-                recycle_item=True
-            )
-            seasoning = self.pick_random(kind='seasoning',
-                                          recycle_item=True)
-            method = self.pick_random(kind='method',
-                                       recycle_item=True)
-
-            parts = []
-            parts += recette.str_in_title()
-            parts += main_ingredient.str_in_title(recette)
-            parts += secondary_ingredient.str_in_title(main_ingredient)
-
-            print(parts_to_string(parts))
-    """
+    @property
+    def steps(self):
+        steps = []
+        return steps
 
     @property
     def title(self):
@@ -201,11 +91,3 @@ class Recettator:
             parts.append(people + randrange(1, 4))
         parts.append('personne(s)')
         return ' '.join([str(part) for part in parts])
-
-    """
-    @property
-    def infos(self):
-        return {
-            'people': self.people,
-        }
-    """

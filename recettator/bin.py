@@ -29,9 +29,10 @@ def recettator_cli():
         print('- {}'.format(ingredient))
     print('')
 
-    # print('How-to')
-    # print('-------')
-    # print(recettator.howto)
+    print('How-to')
+    print('-------')
+    for step in recettator.steps:
+        print('- {}'.format(step))
 
     # print('Debug')
     # print('-----')
