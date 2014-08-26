@@ -8,3 +8,4 @@ Générateur de recettes de cuisine
   - write unittest with raw values
 - shopping list generator
 - single items can have "multiple" version and reverse
+- add more infos -> vegan etc
