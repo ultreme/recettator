@@ -7,7 +7,6 @@ import os
 import pkg_resources
 import sys
 
-from .custom_csv import CustomCSV
 from .items import all_items
 from .utils import parts_to_string
 
