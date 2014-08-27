@@ -63,78 +63,116 @@ class Seasoning(GenderizedItem):
 
 class Tisane(Seasoning):
     name = 'tisane'
+    gender = 'female'
+    quantity = 'single'
 
 
 class ExtraitDeFleurDOranger(Seasoning):
     name = 'extrait de fleur d\'oranger'
+    gender = 'male'
+    quantity = 'single'
 
 
 class Viandox(Seasoning):
     name = 'viandox'
+    gender = 'male'
+    quantity = 'single'
 
 
 class BiereDeNoel(Seasoning):
     name = 'biere de noel'
+    gender = 'female'
+    quantity = 'single'
 
 
 class VinRouge(Seasoning):
     name = 'vin rouge'
+    gender = 'male'
+    quantity = 'single'
 
 
 class VinBlanc(Seasoning):
     name = 'vin blanc'
+    gender = 'male'
+    quantity = 'single'
 
 
 class HuileDArachide(Seasoning):
     name = 'huile d\'arachide'
+    gender = 'female'
+    quantity = 'single'
 
 
 class SauceDHuitre(Seasoning):
     name = 'sauce d\'huitre'
+    gender = 'female'
+    quantity = 'single'
 
 
 class CremeFraiche(Seasoning):
     name = 'creme fraiche'
+    gender = 'female'
+    quantity = 'single'
 
 
 class Creme(Seasoning):
     name = 'creme'
+    gender = 'female'
+    quantity = 'single'
 
 
 class LiqueurDeRaisin(Seasoning):
     name = 'liqueur de raisin'
+    gender = 'female'
+    quantity = 'single'
 
 
 class GrandMarnier(Seasoning):
     name = 'grand marnier'
+    gender = 'male'
+    quantity = 'single'
 
 
 class Lait(Seasoning):
     name = 'lait'
+    gender = 'male'
+    quantity = 'single'
 
 
 class LaitFermente(Seasoning):
     name = 'lait fermente'
+    gender = 'male'
+    quantity = 'single'
 
 
 class HuileDOlive(Seasoning):
     name = 'huile d\'olive'
+    gender = 'female'
+    quantity = 'single'
 
 
 class VinaigreDeRiz(Seasoning):
     name = 'vinaigre de riz'
+    gender = 'male'
+    quantity = 'single'
 
 
 class VinaigreDeCidre(Seasoning):
     name = 'vinaigre de cidre'
+    gender = 'male'
+    quantity = 'single'
 
 
 class VinaigreDeVin(Seasoning):
     name = 'vinaigre de vin'
+    gender = 'male'
+    quantity = 'single'
 
 
 class JusDeCitron(Seasoning):
     name = 'jus de citron'
+    gender = 'male'
+    quantity = 'single'
 
 
 def all_items():
