@@ -5,11 +5,20 @@ from .item import GenderizedItem
 
 class Recette(GenderizedItem):
     kind = 'recette'
+    raw_steps = []
 
     def str_in_title(self, left=None):
         if left:
             raise NotImplementedError()
         return [self.name]
+
+    @property
+    def steps(self):
+        steps = []
+        for step in self.raw_steps:
+            steps.append(step)
+            # FIXME: format string
+        return steps
 
 
 class Tranches(Recette):
@@ -94,6 +103,9 @@ class Ratatouille(Recette):
     name = 'ratatouille'
     gender = 'female'
     quantity = 'single'
+    raw_steps = [
+        'faites une ratatouille'
+    ]
 
 
 class Soupe(Recette):

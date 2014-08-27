@@ -27,16 +27,24 @@ class Recettator:
         set_seed(seed)
 
     @property
+    def is_valid(self):
+        if not self._amounts:
+            return False
+        return self._amounts['main_ingredient'] + \
+            self._amounts['secondary_ingredient'] > 1
+
+    @property
     def items(self):
         if not len(self._items):
             self._db = all_items()
-            self._amounts = OrderedDict([
-                ('recette', 1),
-                ('main_ingredient', randrange(5) - 1),
-                ('secondary_ingredient', randrange(5) - 1),
-                ('seasoning', randrange(6) - 1),
-                ('method', int(randrange(10) < 4)),
-            ])
+            while not self.is_valid:
+                self._amounts = OrderedDict([
+                    ('recette', 1),
+                    ('main_ingredient', randrange(4) - 1),
+                    ('secondary_ingredient', randrange(7) - 1),
+                    ('seasoning', randrange(5) - 1),
+                    ('method', int(randrange(10) < 4)),
+                ])
 
             for k, v in self._amounts.items():
                 for i in xrange(max(v, 0)):
