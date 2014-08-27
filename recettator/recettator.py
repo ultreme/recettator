@@ -53,6 +53,9 @@ class Recettator:
             steps += item.steps
         steps.append('rassemblez tous les ingredients dans un grand plat et '
                      'consommez vite !')
+        steps = [
+            step.capitalize() for step in steps
+        ]
         return steps
 
     @property
@@ -73,6 +76,7 @@ class Recettator:
             ingredient = item.str_in_ingredients_list()
             if ingredient and len(ingredient):
                 ingredient = parts_to_string(ingredient)
+                ingredient = ingredient.capitalize()
                 ingredients.append(ingredient)
         return ingredients
 
