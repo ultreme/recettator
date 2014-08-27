@@ -8,7 +8,7 @@ import pkg_resources
 import sys
 
 from .items import all_items
-from .utils import parts_to_string
+from .utils import parts_to_string, pick_random
 
 
 class Recettator:
@@ -51,10 +51,23 @@ class Recettator:
         steps = []
         for item in self.items:
             steps += item.steps
-        steps.append('rassemblez tous les ingredients dans un grand plat et '
-                     'consommez vite !')
+        steps.append(pick_random([
+            'Faites cuire 20 minutes au four, thermostat 7',
+            'Laissez reposer pendant une a deux heures environ',
+            'Decopuez le tout en morceaux assez copieux et deposez-les dans de '
+            'petits ramequins',
+            None,
+        ]))
+        steps.append(pick_random([
+            'rassemblez tous les ingredients dans un grand plat et consommez '
+            'vite !',
+            '... et bon appetit !',
+            None,
+        ]))
         steps = [
-            step.capitalize() for step in steps
+            step.capitalize()
+            for step in steps
+            if step
         ]
         return steps
 

@@ -1,19 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import random
-from ..utils import parts_to_string
-
-
-def genderization(options, constraints):
-    for option in options:
-        checks = option.values()[0]
-        matches = True
-        for k, v in checks.items():
-            if constraints[k] != v:
-                matches = False
-                break
-        if matches:
-            return option.keys()[0]
+from ..utils import parts_to_string, genderization
 
 
 class Item(object):
