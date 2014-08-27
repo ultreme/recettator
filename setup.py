@@ -43,7 +43,7 @@ setup(
     },
     package_data={
         'recettator': [
-            'db',
+            'db/*.csv',
         ]
     }
 )
