@@ -41,9 +41,4 @@ setup(
             'recettator-cli = recettator.bin:recettator_cli',
         ],
     },
-    package_data={
-        'recettator': [
-            'db/*.csv',
-        ]
-    }
 )
