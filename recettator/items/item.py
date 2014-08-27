@@ -8,9 +8,11 @@ class Item(object):
     name = None
     kind = None
 
-    def __init__(self):
+    def __init__(self, db, parent=None):
+        self._db = db
         self._picked = {}
         self.pick_some()
+        self.parent = parent
 
     def pick_some(self):
         pass
@@ -68,6 +70,10 @@ class Item(object):
         parts += self.name_prefix
         parts.append(self.name)
         return parts_to_string(parts)
+
+
+class AddonItem(Item):
+    pass
 
 
 class GenderizedItem(Item):

@@ -12,8 +12,9 @@ def recettator_cli():
 
     recettator = Recettator(seed=seed)
 
-    print('#{} - {}'.format(recettator.seed, recettator.title))
-    print((len(recettator.title) + 4 + len(str(recettator.seed))) * '=')
+    title = recettator.title
+    print('#{} - {}'.format(recettator.seed, title))
+    print((len(title) + 4 + len(str(recettator.seed))) * '=')
     print('')
 
     print(recettator.people)

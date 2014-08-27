@@ -9,6 +9,7 @@ from .item import GenderizedItem
 
 class MainIngredient(GenderizedItem):
     kind = 'main_ingredient'
+    method = None
 
     @property
     def people(self):
@@ -17,6 +18,9 @@ class MainIngredient(GenderizedItem):
     @property
     def steps(self):
         steps = []
+
+        if self.method:
+            steps += self.method.steps
 
         step = self._genderize(
             {'decoupez {} en fines petits tranches': {}},
@@ -40,19 +44,14 @@ class MainIngredient(GenderizedItem):
     def str_in_title(self, left):
         parts = []
 
-        if left:
-            switch = random.randrange(2)
-        else:
-            switch = 0
-
-        if switch == 0:
+        if random.randrange(2):
             parts.append(self._genderize(
                 {'aux': {'quantity': 'multiple'}},
                 {'a l\'': {'1st_voyel': True}},
                 {'au': {'gender': 'male', '1st_voyel': False}},
                 {'a la': {'gender': 'female'}},
             ))
-        elif switch == 1:
+        else:
             parts.append(left._genderize(
                 {'assorti': {'gender': 'male', 'quantity': 'single'}},
                 {'assortie': {'gender': 'female', 'quantity': 'single'}},
@@ -64,35 +63,21 @@ class MainIngredient(GenderizedItem):
                 {'d\'': {'1st_voyel': True}},
             ))
         parts.append(self.name)
-        if random.randrange(2):
-            suffixes = [
-                ['glace', 'glacee', 'glaces', 'glacees'],
-                ['poele', 'poelee', 'poeles', 'poelees'],
-                ['farci', 'farcie', 'farcis', 'farcies'],
-                ['roti', 'rotie', 'rotis', 'roties'],
-                ['chaud', 'chaude', 'chauds', 'chaudes'],
-                ['decoupe', 'decoupee', 'decoupes', 'decoupees'],
-                ['grille', 'grillee', 'grilles', 'grillees'],
-                ['battu', 'battue', 'battus', 'battues'],
-            ]
-            suffix = suffixes[random.randrange(len(suffixes))]
-            options = {}
-            options[suffix[0]] = {'quantity': 'single', 'gender': 'male'}
-            options[suffix[1]] = {'quantity': 'single', 'gender': 'female'}
-            options[suffix[2]] = {'quantity': 'multiple', 'gender': 'male'}
-            options[suffix[3]] = {'quantity': 'multiple', 'gender': 'female'}
-            options = [{k: v} for k, v in options.items()]
-            parts.append(self._genderize(
-                *options
-            ))
+
+        if self.method:
+            parts += self.method.str_in_title(self)
+
         return parts
 
     def pick_some(self):
-        rand = random.randrange(3)
-
         value = None
         unite = None
 
+        if random.randrange(20):
+            self.method = self._db.pick_random(kind='ingredient_method',
+                                               parent=self)
+
+        rand = random.randrange(3)
         if rand == 0:
             value = random.randrange(1, 51) * 10
             unite = self._genderize(

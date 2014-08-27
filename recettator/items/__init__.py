@@ -10,6 +10,7 @@ from .secondary_ingredients import all_items as secondary_ingredients_items
 from .seasonings import all_items as seasonings_items
 from .methods import all_items as methods_items
 from .recettes import all_items as recettes_items
+from .ingredient_methods import all_items as ingredient_methods_items
 
 
 class ItemGroup(object):
@@ -18,7 +19,7 @@ class ItemGroup(object):
         if shuffle:
             random.shuffle(self.availables)
 
-    def pick_random(self, recycle_item=False, **kwargs):
+    def pick_random(self, recycle_item=False, parent=None, **kwargs):
         for item in self.availables:
             found = True
             for k, v in kwargs.items():
@@ -48,7 +49,7 @@ class ItemGroup(object):
                 self.availables.remove(item)
                 if recycle_item:
                     self.availables.append(item)
-                return item()
+                return item(self, parent=parent)
         return None
 
 
@@ -59,4 +60,5 @@ def all_items():
     items += seasonings_items()
     items += methods_items()
     items += recettes_items()
+    items += ingredient_methods_items()
     return ItemGroup(items)
