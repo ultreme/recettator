@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import random
-
 from .item import GenderizedItem
 
 
@@ -25,7 +23,7 @@ class Seasoning(GenderizedItem):
         value = None
         unite = None
 
-        value = random.randrange(1, 31) / 10.0
+        value = self._random.randrange(1, 31) / 10.0
 
         unite_base = 'litre'
         if value < 1:

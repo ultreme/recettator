@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import random
+from random import Random
 from ..utils import parts_to_string, genderization
 
 
@@ -8,11 +8,14 @@ class Item(object):
     name = None
     kind = None
 
-    def __init__(self, db, parent=None):
-        self._db = db
+    def __init__(self, db, parent=None, seed=None):
         self._picked = {}
+        self._db = db
+        self._parent = parent
+        self._random = Random()
+        if seed:
+            self._random.seed(seed)
         self.pick_some()
-        self.parent = parent
 
     def pick_some(self):
         pass
@@ -92,7 +95,7 @@ class GenderizedItem(Item):
 
         options = list(args)
         if shuffle:
-            random.shuffle(options)
+            self._random.shuffle(options)
 
         constraints = self.attrs
         for k, v in kwargs.items():

@@ -2,7 +2,7 @@
 
 from collections import OrderedDict
 from math import ceil
-from random import randrange, seed as set_seed
+from random import Random, randrange
 import os
 import pkg_resources
 import sys
@@ -17,14 +17,17 @@ class Recettator:
     def __init__(self, seed=None):
         self._data = None
         self._items = []
-        self._db = None
         self._amounts = {}
 
-        # seed
+        # random
+        self._random = Random()
         if not seed:
             seed = randrange(10000)
         self.seed = seed
-        set_seed(seed)
+        self._random.seed(seed)
+
+        # db
+        self._db = all_items(seed=self._random.randrange(1000))
 
     @property
     def is_valid(self):
@@ -36,14 +39,13 @@ class Recettator:
     @property
     def items(self):
         if not len(self._items):
-            self._db = all_items()
             while not self.is_valid:
                 self._amounts = OrderedDict([
                     ('recette', 1),
-                    ('main_ingredient', randrange(4) - 1),
-                    ('secondary_ingredient', randrange(7) - 1),
-                    ('seasoning', randrange(5) - 1),
-                    ('method', int(randrange(10) < 4)),
+                    ('main_ingredient', self._random.randrange(4) - 1),
+                    ('secondary_ingredient', self._random.randrange(7) - 1),
+                    ('seasoning', self._random.randrange(5) - 1),
+                    ('method', int(self._random.randrange(10) < 4)),
                 ])
 
             for k, v in self._amounts.items():
@@ -65,13 +67,13 @@ class Recettator:
             'Decopuez le tout en morceaux assez copieux et deposez-les dans de '
             'petits ramequins',
             None,
-        ]))
+        ], self._random))
         steps.append(pick_random([
             'rassemblez tous les ingredients dans un grand plat et consommez '
             'vite !',
             '... et bon appetit !',
             None,
-        ]))
+        ], self._random))
         steps = [
             step.capitalize()
             for step in steps
@@ -112,11 +114,11 @@ class Recettator:
     def people(self):
         people = self._people
         parts = ['Pour']
-        if randrange(100) < 20:
+        if self._random.randrange(100) < 20:
             parts.append('environ')
         parts.append(people)
-        if randrange(100) < 20:
+        if self._random.randrange(100) < 20:
             parts.append('a')
-            parts.append(people + randrange(1, 4))
+            parts.append(people + self._random.randrange(1, 4))
         parts.append('personne(s)')
         return ' '.join([str(part) for part in parts])

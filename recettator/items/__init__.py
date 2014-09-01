@@ -14,10 +14,14 @@ from .ingredient_methods import all_items as ingredient_methods_items
 
 
 class ItemGroup(object):
-    def __init__(self, items, shuffle=True):
+    def __init__(self, items, shuffle=True, seed=None):
+        self._random = random.Random()
+        if seed:
+            self._random.seed(seed)
+
         self.availables = items
         if shuffle:
-            random.shuffle(self.availables)
+            self._random.shuffle(self.availables)
 
     def pick_random(self, recycle_item=False, parent=None, **kwargs):
         for item in self.availables:
@@ -49,11 +53,12 @@ class ItemGroup(object):
                 self.availables.remove(item)
                 if recycle_item:
                     self.availables.append(item)
-                return item(self, parent=parent)
+                seed = self._random.random()
+                return item(self, parent=parent, seed=seed)
         return None
 
 
-def all_items():
+def all_items(seed=None):
     items = []
     items += main_ingredients_items()
     items += secondary_ingredients_items()
@@ -61,4 +66,4 @@ def all_items():
     items += methods_items()
     items += recettes_items()
     items += ingredient_methods_items()
-    return ItemGroup(items)
+    return ItemGroup(items, seed=seed)

@@ -19,5 +19,8 @@ def genderization(options, constraints):
             return option.keys()[0]
 
 
-def pick_random(lst):
-    return lst[random.randrange(len(lst))]
+def pick_random(lst, random_=None):
+    if not random_:
+        random_ = random
+
+    return lst[random_.randrange(len(lst))]

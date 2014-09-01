@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import random
-
 from ..utils import parts_to_string
 
 from .item import AddonItem
@@ -17,7 +15,7 @@ class IngredientMethod(AddonItem):
         return self.names[0]
 
     def str_in_title(self, left):
-        if left != self.parent:
+        if left != self._parent:
             raise RuntimeError()
 
         options = {}
@@ -26,13 +24,13 @@ class IngredientMethod(AddonItem):
         options[self.names[2]] = {'quantity': 'multiple', 'gender': 'male'}
         options[self.names[3]] = {'quantity': 'multiple', 'gender': 'female'}
         options = [{k: v} for k, v in options.items()]
-        return [self.parent._genderize(*options)]
+        return [self._parent._genderize(*options)]
 
     @property
     def steps(self):
         steps = []
         for step in self.raw_steps:
-            step = step.format(self.parent.name_with_prefix)
+            step = step.format(self._parent.name_with_prefix)
             steps.append(step)
         return steps
 

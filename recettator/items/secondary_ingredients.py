@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import random
-
 from .item import GenderizedItem
 
 
@@ -30,7 +28,7 @@ class SecondaryIngredient(GenderizedItem):
     def str_in_title(self, left):
         parts = []
         if left.kind in ('main_ingredient', 'secondary_ingredient'):
-            if random.randrange(10) < 5:
+            if self._random.randrange(10) < 5:
                 parts.append('et')
         parts.append(self._genderize(
             {'aux': {'quantity': 'multiple'}},
@@ -74,7 +72,7 @@ class SecondaryIngredient(GenderizedItem):
             )
 
         elif self.is_powder:
-            value = random.randrange(1, 51) * 10
+            value = self._random.randrange(1, 51) * 10
             unite = self._genderize(
                 {'gramme de': {'value': 1, '1st_voyel': False}},
                 {'gramme d\'': {'value': 1, '1st_voyel': True}},
@@ -87,7 +85,7 @@ class SecondaryIngredient(GenderizedItem):
             if self.quantity == 'single':
                 value = 1
             else:
-                value = random.randrange(1, 21)
+                value = self._random.randrange(1, 21)
 
         elif self.is_spice:
             options = []
