@@ -50,7 +50,7 @@ class SecondaryIngredient(GenderizedItem):
             {'ajoutez {} par dessus': {}},
             {'faites cuire {} dans un wok': {}},
             {'faites chauffer {} et pensez a vanner pendant le '
-             'refroidissemnt': {}},
+             'refroidissement': {}},
             shuffle=True,
         )
         step = step.format(self.name_with_prefix)
