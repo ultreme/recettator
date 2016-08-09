@@ -10,20 +10,24 @@ import (
 )
 
 type Recettator struct {
-	seed        uint64
+	// components
 	title       string
 	people      uint64
 	steps       Steps
 	ingredients Ingredients
 
+	// internal
+	seed  int64
 	ready bool
+	rnd   *rand.Rand // global random, used to add ingredients and steps
 }
 
-func New(seed uint64) Recettator {
+func New(seed int64) Recettator {
 	return Recettator{
 		seed:        seed,
 		steps:       make(Steps, 0),
 		ingredients: make(Ingredients, 0),
+		rnd:         rand.New(rand.NewSource(seed)),
 	}
 }
 
@@ -35,13 +39,16 @@ func (r *Recettator) prepare() {
 		return
 	}
 
+	// dedicated random for prepare
+	rnd := rand.New(rand.NewSource(r.seed))
+
 	r.title = "some random words"
-	r.people = uint64(rand.Intn(4) + 1)
+	r.people = uint64(rnd.Intn(4) + 1)
 
 	r.ready = true
 }
 
-func (r *Recettator) Seed() uint64             { r.prepare(); return r.seed }
+func (r *Recettator) Seed() int64              { r.prepare(); return r.seed }
 func (r *Recettator) Title() string            { r.prepare(); return r.title }
 func (r *Recettator) People() uint64           { r.prepare(); return r.people }
 func (r *Recettator) Ingredients() Ingredients { r.prepare(); return r.ingredients }

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/camembertaulaitcrew/recettator"
@@ -50,7 +51,11 @@ func run(c *cli.Context) error {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
 
-	rctt := recettator.New(uint64(c.Int("seed")))
+	seed := int64(c.Int("seed"))
+	if seed == 0 {
+		seed = time.Now().UTC().UnixNano()
+	}
+	rctt := recettator.New(seed)
 
 	for i := 0; i < c.Int("ingredients"); i++ {
 		rctt.AddRandomIngredient()
