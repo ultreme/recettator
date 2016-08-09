@@ -32,8 +32,12 @@ func New(seed int64) Recettator {
 	}
 }
 
-func (r *Recettator) AddRandomIngredient() error { r.ready = false; return nil }
-func (r *Recettator) AddRandomStep() error       { r.ready = false; return nil }
+func (r *Recettator) AddRandomIngredient() error {
+	r.ready = false
+	r.ingredients = append(r.ingredients, ingredients.RegisteredIngredients.Pick())
+	return nil
+}
+func (r *Recettator) AddRandomStep() error { r.ready = false; return nil }
 
 func (r *Recettator) prepare() {
 	if r.ready {
@@ -87,7 +91,7 @@ func (r *Recettator) JSON() string {
 	export["title"] = r.Title()
 	export["steps"] = r.Steps()
 	export["people"] = r.People()
-	export["ingredients"] = r.Ingredients()
+	export["ingredients"] = r.Ingredients() // FIXME: return all ingredients info
 
 	output, _ := json.MarshalIndent(export, "", "  ")
 	return string(output)

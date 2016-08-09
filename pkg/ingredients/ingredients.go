@@ -1,8 +1,10 @@
 package ingredients
 
-var RegisteredIngredients Ingredients
+var RegisteredIngredients IngredientPool
 
-func (i *Ingredients) append(ingredient Ingredient) { *i = append(*i, ingredient) }
+func (i *IngredientPool) append(ingredient Ingredient) {
+	i.Availables = append(i.Availables, ingredient)
+}
 
 type Ingredient interface {
 	Name() string
@@ -12,6 +14,17 @@ type Ingredient interface {
 }
 
 type Ingredients []Ingredient
+
+type IngredientPool struct {
+	Availables []Ingredient
+	Picked     []Ingredient
+}
+
+func (i *IngredientPool) Pick() Ingredient {
+	// FIXME: shuffle
+	// FIXME: move picked from available to picked
+	return i.Availables[0]
+}
 
 type StandardIngredient struct {
 	name string
