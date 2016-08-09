@@ -1,4 +1,4 @@
-package recettator
+package ingredients
 
 var RegisteredIngredients Ingredients
 

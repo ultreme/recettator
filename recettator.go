@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"strings"
 
+	"github.com/camembertaulaitcrew/recettator/pkg/ingredients"
 	"github.com/moul/advanced-ssh-config/pkg/templates"
 )
 
@@ -14,7 +15,7 @@ type Recettator struct {
 	title       string
 	people      uint64
 	steps       Steps
-	ingredients Ingredients
+	ingredients ingredients.Ingredients
 
 	// internal
 	seed  int64
@@ -26,7 +27,7 @@ func New(seed int64) Recettator {
 	return Recettator{
 		seed:        seed,
 		steps:       make(Steps, 0),
-		ingredients: make(Ingredients, 0),
+		ingredients: make(ingredients.Ingredients, 0),
 		rnd:         rand.New(rand.NewSource(seed)),
 	}
 }
@@ -48,11 +49,11 @@ func (r *Recettator) prepare() {
 	r.ready = true
 }
 
-func (r *Recettator) Seed() int64              { r.prepare(); return r.seed }
-func (r *Recettator) Title() string            { r.prepare(); return r.title }
-func (r *Recettator) People() uint64           { r.prepare(); return r.people }
-func (r *Recettator) Ingredients() Ingredients { r.prepare(); return r.ingredients }
-func (r *Recettator) Steps() Steps             { r.prepare(); return r.steps }
+func (r *Recettator) Seed() int64                          { r.prepare(); return r.seed }
+func (r *Recettator) Title() string                        { r.prepare(); return r.title }
+func (r *Recettator) People() uint64                       { r.prepare(); return r.people }
+func (r *Recettator) Ingredients() ingredients.Ingredients { r.prepare(); return r.ingredients }
+func (r *Recettator) Steps() Steps                         { r.prepare(); return r.steps }
 
 func (r *Recettator) Markdown() (string, error) {
 	var buff bytes.Buffer
