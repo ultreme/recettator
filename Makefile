@@ -10,6 +10,11 @@ $(BIN): $(SOURCE)
 	go build -o ./$@ ./cmd/$@/main.go
 
 
+.PHONY: docker
+docker:
+	docker build -t camembertaulaitcrew/recettator .
+
+
 .PHONY: test
 test:
 	go test -v $(OWN_PACKAGES)
