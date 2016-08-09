@@ -2,6 +2,7 @@ package recettator
 
 import (
 	"bytes"
+	"encoding/json"
 	"math/rand"
 	"strings"
 
@@ -26,8 +27,8 @@ func New(seed uint64) Recettator {
 	}
 }
 
-func (r *Recettator) AddRandomIngredient() error { return nil }
-func (r *Recettator) AddRandomStep() error       { return nil }
+func (r *Recettator) AddRandomIngredient() error { r.ready = false; return nil }
+func (r *Recettator) AddRandomStep() error       { r.ready = false; return nil }
 
 func (r *Recettator) prepare() {
 	if r.ready {
@@ -70,4 +71,16 @@ Pour {{ .People }} personnes.
 	}
 
 	return buff.String(), nil
+}
+
+func (r *Recettator) JSON() string {
+	export := make(map[string]interface{}, 0)
+	export["seed"] = r.Seed()
+	export["title"] = r.Title()
+	export["steps"] = r.Steps()
+	export["people"] = r.People()
+	export["ingredients"] = r.Ingredients()
+
+	output, _ := json.MarshalIndent(export, "", "  ")
+	return string(output)
 }

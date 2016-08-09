@@ -32,6 +32,10 @@ func main() {
 			Name:  "steps",
 			Usage: "Amount of steps",
 		},
+		cli.BoolFlag{
+			Name:  "json",
+			Usage: "Use JSON output",
+		},
 	}
 
 	app.Action = run
@@ -56,9 +60,16 @@ func run(c *cli.Context) error {
 		rctt.AddRandomStep()
 	}
 
-	output, err := rctt.Markdown()
-	if err != nil {
-		return err
+	var output string
+	var err error
+
+	if c.Bool("json") {
+		output = rctt.JSON()
+	} else {
+		output, err = rctt.Markdown()
+		if err != nil {
+			return err
+		}
 	}
 
 	fmt.Println(output)
