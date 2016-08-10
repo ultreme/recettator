@@ -50,6 +50,7 @@ func (i StandardIngredient) Kind() string { return i.kind }
 func init() {
 	RegisteredIngredients.append(NewMainIngredient("agneau", "male", false))
 	RegisteredIngredients.append(NewMainIngredient("autruche", "female", false))
+	RegisteredIngredients.append(NewMainIngredient("canard", "male", false))
 	RegisteredIngredients.append(NewMainIngredient("carpe", "female", false))
 	RegisteredIngredients.append(NewMainIngredient("cheval", "male", false))
 	RegisteredIngredients.append(NewMainIngredient("chips", "female", true))
