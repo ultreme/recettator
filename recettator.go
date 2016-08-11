@@ -10,12 +10,22 @@ import (
 	"github.com/moul/advanced-ssh-config/pkg/templates"
 )
 
+type Settings struct {
+	MainIngredients      uint64
+	SecondaryIngredients uint64
+	Steps                uint64
+	// vegan
+}
+
 type Recettator struct {
 	// components
-	title       string
-	people      uint64
-	steps       Steps
-	ingredients ingredients.Ingredients
+	title  string
+	people uint64
+	steps  Steps
+	pool   *ingredients.IngredientsPool
+
+	// settings
+	settings Settings
 
 	// internal
 	seed  int64
@@ -24,40 +34,51 @@ type Recettator struct {
 }
 
 func New(seed int64) Recettator {
+	rnd := rand.New(rand.NewSource(seed))
 	return Recettator{
-		seed:        seed,
-		steps:       make(Steps, 0),
-		ingredients: make(ingredients.Ingredients, 0),
-		rnd:         rand.New(rand.NewSource(seed)),
+		seed:  seed,
+		steps: make(Steps, 0),
+		pool:  ingredients.NewPool(rnd),
+		rnd:   rnd,
 	}
 }
-
-func (r *Recettator) AddRandomIngredient() error {
-	r.ready = false
-	r.ingredients = append(r.ingredients, ingredients.RegisteredIngredients.Pick())
-	return nil
-}
-func (r *Recettator) AddRandomStep() error { r.ready = false; return nil }
 
 func (r *Recettator) prepare() {
 	if r.ready {
 		return
 	}
 
-	// dedicated random for prepare
-	rnd := rand.New(rand.NewSource(r.seed))
+	// pick items
+	for i := uint64(0); i < r.settings.MainIngredients; i++ {
+		r.pool.MainIngredients.Pick()
+	}
+	for i := uint64(0); i < r.settings.SecondaryIngredients; i++ {
+		r.pool.SecondaryIngredients.Pick()
+	}
+	// check if recette is valid
 
-	r.title = "some random words"
-	r.people = uint64(rnd.Intn(4) + 1)
+	titleParts := []string{}
+	//var left ingredients.Ingredients
+	//for _, ingredient := range r.pool.MainIngredients.Picked {
+	//	titleParts = append(titleParts, ingredient.GetTitleParts(left))
+	//	left = ingredient
+	//}
+	r.title = strings.Join(titleParts, " ")
+	r.people = uint64(r.rnd.Intn(4) + 1)
 
 	r.ready = true
 }
 
-func (r *Recettator) Seed() int64                          { r.prepare(); return r.seed }
-func (r *Recettator) Title() string                        { r.prepare(); return r.title }
-func (r *Recettator) People() uint64                       { r.prepare(); return r.people }
-func (r *Recettator) Ingredients() ingredients.Ingredients { r.prepare(); return r.ingredients }
-func (r *Recettator) Steps() Steps                         { r.prepare(); return r.steps }
+func (r *Recettator) Seed() int64                        { return r.seed }
+func (r *Recettator) Settings() Settings                 { return r.settings }
+func (r *Recettator) Title() string                      { r.prepare(); return r.title }
+func (r *Recettator) People() uint64                     { r.prepare(); return r.people }
+func (r *Recettator) Pool() *ingredients.IngredientsPool { r.prepare(); return r.pool }
+func (r *Recettator) Steps() Steps                       { r.prepare(); return r.steps }
+
+func (r *Recettator) SetSettings(settings Settings) {
+	r.settings = settings
+}
 
 func (r *Recettator) Markdown() (string, error) {
 	var buff bytes.Buffer
@@ -68,7 +89,9 @@ Pour {{ .People }} personnes.
 
 ## Ingrédients
 
-{{ .Ingredients }}
+{{ .Pool.MainIngredients }}
+
+{{ .Pool.SecondaryIngredients }}
 
 ## Etapes
 
@@ -87,11 +110,13 @@ Pour {{ .People }} personnes.
 
 func (r *Recettator) JSON() string {
 	export := make(map[string]interface{}, 0)
-	export["seed"] = r.Seed()
-	export["title"] = r.Title()
-	export["steps"] = r.Steps()
-	export["people"] = r.People()
-	export["ingredients"] = r.Ingredients() // FIXME: return all ingredients info
+	r.prepare()
+	export["seed"] = r.seed
+	export["title"] = r.title
+	export["steps"] = r.steps
+	export["people"] = r.people
+	export["settings"] = r.settings
+	export["pool"] = r.pool // FIXME: return all ingredients info
 
 	output, _ := json.MarshalIndent(export, "", "  ")
 	return string(output)

@@ -1,8 +1,8 @@
 package ingredients
 
-var RegisteredIngredients IngredientPool
+import "math/rand"
 
-func (i *IngredientPool) append(ingredient Ingredient) {
+func (i *PoolCategory) append(ingredient Ingredient) {
 	i.Availables = append(i.Availables, ingredient)
 }
 
@@ -15,18 +15,25 @@ type Ingredient interface {
 
 type Ingredients []Ingredient
 
-type IngredientPool struct {
+type IngredientsPool struct {
+	rand                 *rand.Rand
+	MainIngredients      PoolCategory
+	SecondaryIngredients PoolCategory
+}
+
+type PoolCategory struct {
 	Availables []Ingredient
 	Picked     []Ingredient
 }
 
-func (i *IngredientPool) Pick() Ingredient {
+func (i *PoolCategory) Pick() Ingredient {
 	// FIXME: shuffle
-	// FIXME: move picked from available to picked
+	i.Picked = append(i.Picked, i.Availables[0])
+	i.Availables = i.Availables[1:]
 	return i.Availables[0]
 }
 
-type StandardIngredient struct {
+type StandardMainIngredient struct {
 	name string
 	kind string
 
@@ -34,8 +41,8 @@ type StandardIngredient struct {
 	Multiple bool
 }
 
-func NewMainIngredient(name, gender string, multiple bool) StandardIngredient {
-	return StandardIngredient{
+func NewMainIngredient(name, gender string, multiple bool) StandardMainIngredient {
+	return StandardMainIngredient{
 		name: name,
 		kind: "main",
 
@@ -44,28 +51,31 @@ func NewMainIngredient(name, gender string, multiple bool) StandardIngredient {
 	}
 }
 
-func (i StandardIngredient) Name() string { return i.name }
-func (i StandardIngredient) Kind() string { return i.kind }
+func (i StandardMainIngredient) Name() string { return i.name }
+func (i StandardMainIngredient) Kind() string { return i.kind }
 
-func init() {
-	RegisteredIngredients.append(NewMainIngredient("agneau", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("autruche", "female", false))
-	RegisteredIngredients.append(NewMainIngredient("canard", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("carpe", "female", false))
-	RegisteredIngredients.append(NewMainIngredient("cheval", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("chips", "female", true))
-	RegisteredIngredients.append(NewMainIngredient("dinde", "female", false))
-	RegisteredIngredients.append(NewMainIngredient("foie d'oie", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("foie gras", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("jambon", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("lardons", "male", true))
-	RegisteredIngredients.append(NewMainIngredient("lièvre", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("lotte", "female", false))
-	RegisteredIngredients.append(NewMainIngredient("oie", "female", false))
-	RegisteredIngredients.append(NewMainIngredient("poney", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("poulet", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("requin", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("surimi", "male", false))
-	RegisteredIngredients.append(NewMainIngredient("veau", "male", false))
-	// RegisteredIngredients.append(NewMainIngredient("", "", false))
+func NewPool(rnd *rand.Rand) *IngredientsPool {
+	var pool IngredientsPool
+	pool.rand = rnd
+	pool.MainIngredients.append(NewMainIngredient("agneau", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("autruche", "female", false))
+	pool.MainIngredients.append(NewMainIngredient("canard", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("carpe", "female", false))
+	pool.MainIngredients.append(NewMainIngredient("cheval", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("chips", "female", true))
+	pool.MainIngredients.append(NewMainIngredient("dinde", "female", false))
+	pool.MainIngredients.append(NewMainIngredient("foie d'oie", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("foie gras", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("jambon", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("lardons", "male", true))
+	pool.MainIngredients.append(NewMainIngredient("lièvre", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("lotte", "female", false))
+	pool.MainIngredients.append(NewMainIngredient("oie", "female", false))
+	pool.MainIngredients.append(NewMainIngredient("poney", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("poulet", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("requin", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("surimi", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("veau", "male", false))
+	// pool.MainIngredients.append(NewMainIngredient("", "", false))
+	return &pool
 }

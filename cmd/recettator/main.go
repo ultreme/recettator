@@ -26,8 +26,12 @@ func main() {
 			Usage: "Set seed value",
 		},
 		cli.IntFlag{
-			Name:  "ingredients, i",
-			Usage: "Amount of ingredients",
+			Name:  "main-ingredients",
+			Usage: "Amount of main-ingredients",
+		},
+		cli.IntFlag{
+			Name:  "secondary-ingredients",
+			Usage: "Amount of secondary-ingredients",
 		},
 		cli.IntFlag{
 			Name:  "steps",
@@ -42,6 +46,7 @@ func main() {
 	app.Action = run
 
 	if err := app.Run(os.Args); err != nil {
+		//panic(err)
 		logrus.Fatalf("%v", err)
 	}
 }
@@ -57,13 +62,11 @@ func run(c *cli.Context) error {
 	}
 	rctt := recettator.New(seed)
 
-	for i := 0; i < c.Int("ingredients"); i++ {
-		rctt.AddRandomIngredient()
-	}
-
-	for i := 0; i < c.Int("steps"); i++ {
-		rctt.AddRandomStep()
-	}
+	rctt.SetSettings(recettator.Settings{
+		MainIngredients:      uint64(c.Int("main-ingredients")),
+		SecondaryIngredients: uint64(c.Int("secondary-ingredients")),
+		Steps:                uint64(c.Int("steps")),
+	})
 
 	var output string
 	var err error
@@ -74,6 +77,7 @@ func run(c *cli.Context) error {
 		output, err = rctt.Markdown()
 		if err != nil {
 			return err
+			//panic(err)
 		}
 	}
 
