@@ -116,8 +116,10 @@ func (r *Recettator) JSON() string {
 	export["steps"] = r.steps
 	export["people"] = r.people
 	export["settings"] = r.settings
-	export["pool"] = r.pool // FIXME: return all ingredients info
-
+	export["pool"] = map[string]interface{}{
+		"main-ingredients":      r.pool.MainIngredients.Picked,
+		"secondary-ingredients": r.pool.SecondaryIngredients.Picked,
+	}
 	output, _ := json.MarshalIndent(export, "", "  ")
 	return string(output)
 }
