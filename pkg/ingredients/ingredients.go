@@ -11,7 +11,7 @@ func (i *PoolCategory) append(ingredient Ingredient) {
 
 type Ingredient interface {
 	Name() string
-	Quantity() string
+	Kind() string
 	NameAndQuantity() string
 }
 
@@ -43,7 +43,7 @@ func (i *PoolCategory) Pick() Ingredient {
 	return i.Availables[0]
 }
 
-type StandardMainIngredient struct {
+type MainIngredient struct {
 	name     string
 	quantity string
 
@@ -51,8 +51,8 @@ type StandardMainIngredient struct {
 	Multiple bool
 }
 
-func NewMainIngredient(name, gender string, multiple bool) StandardMainIngredient {
-	return StandardMainIngredient{
+func NewMainIngredient(name, gender string, multiple bool) MainIngredient {
+	return MainIngredient{
 		name:     name,
 		quantity: "42 grammes d'",
 
@@ -61,10 +61,42 @@ func NewMainIngredient(name, gender string, multiple bool) StandardMainIngredien
 	}
 }
 
-func (i StandardMainIngredient) Name() string     { return i.name }
-func (i StandardMainIngredient) Quantity() string { return i.quantity }
-func (i StandardMainIngredient) NameAndQuantity() string {
+func (i MainIngredient) Kind() string { return "main-ingredient" }
+func (i MainIngredient) Name() string { return i.name }
+func (i MainIngredient) NameAndQuantity() string {
 	return fmt.Sprintf("%s%s", i.quantity, i.name)
+}
+
+type SecondaryIngredient struct {
+	name          string
+	isMale        bool
+	isMultiple    bool
+	isUncountable bool
+	isPowder      bool
+	isCitrus      bool
+	isSpice       bool
+	isByPiece     bool
+	isSpreadable  bool
+}
+
+func NewSecondaryIngredient(name string, male, multiple, uncountable, powder, citrus, spice, byPiece, spreadable bool) SecondaryIngredient {
+	return SecondaryIngredient{
+		name:          name,
+		isMale:        male,
+		isMultiple:    multiple,
+		isUncountable: uncountable,
+		isPowder:      powder,
+		isCitrus:      citrus,
+		isSpice:       spice,
+		isByPiece:     byPiece,
+		isSpreadable:  spreadable,
+	}
+}
+
+func (i SecondaryIngredient) Kind() string { return "secondary-ingredient" }
+func (i SecondaryIngredient) Name() string { return i.name }
+func (i SecondaryIngredient) NameAndQuantity() string {
+	return fmt.Sprintf("du %s", i.name)
 }
 
 func NewPool(rnd *rand.Rand) *IngredientsPool {
