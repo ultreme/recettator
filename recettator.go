@@ -3,9 +3,11 @@ package recettator
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"math/rand"
 	"strings"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/camembertaulaitcrew/recettator/pkg/ingredients"
 	"github.com/moul/advanced-ssh-config/pkg/templates"
 )
@@ -43,20 +45,44 @@ func New(seed int64) Recettator {
 	}
 }
 
-func (r *Recettator) prepare() {
-	if r.ready {
-		return
+func (r *Recettator) applyDefaults() {
+	if r.settings.MainIngredients == 0 {
+		qty := r.rnd.Intn(4) - 1
+		if qty > 0 {
+			r.settings.MainIngredients = uint64(qty)
+		}
 	}
+}
 
-	// pick items
+func (r *Recettator) pickItems() {
 	for i := uint64(0); i < r.settings.MainIngredients; i++ {
 		r.pool.MainIngredients.Pick()
 	}
 	for i := uint64(0); i < r.settings.SecondaryIngredients; i++ {
 		r.pool.SecondaryIngredients.Pick()
 	}
-	// check if recette is valid
+}
 
+func (r *Recettator) isValid() error {
+	if r.settings.MainIngredients+r.settings.SecondaryIngredients < 1 {
+		return fmt.Errorf("not enough ingredients.")
+	}
+	return nil
+}
+
+func (r *Recettator) prepare() {
+	if r.ready {
+		return
+	}
+
+	// pick items
+	r.applyDefaults()
+	if err := r.isValid(); err != nil {
+		logrus.Fatalf("Invalid recette: %v", err)
+	}
+	r.pickItems()
+
+	// compute fields
 	titleParts := []string{}
 	//var left ingredients.Ingredients
 	//for _, ingredient := range r.pool.MainIngredients.Picked {
