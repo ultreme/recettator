@@ -1,6 +1,9 @@
 package ingredients
 
-import "math/rand"
+import (
+	"fmt"
+	"math/rand"
+)
 
 func (i *PoolCategory) append(ingredient Ingredient) {
 	i.Availables = append(i.Availables, ingredient)
@@ -8,9 +11,10 @@ func (i *PoolCategory) append(ingredient Ingredient) {
 
 type Ingredient interface {
 	Name() string
-	Kind() string
 	// Gender() string
 	// Quantity() string
+
+	NameAndQuantity() string
 }
 
 type Ingredients []Ingredient
@@ -34,8 +38,8 @@ func (i *PoolCategory) Pick() Ingredient {
 }
 
 type StandardMainIngredient struct {
-	name string
-	kind string
+	name     string
+	quantity string
 
 	Gender   string
 	Multiple bool
@@ -43,8 +47,8 @@ type StandardMainIngredient struct {
 
 func NewMainIngredient(name, gender string, multiple bool) StandardMainIngredient {
 	return StandardMainIngredient{
-		name: name,
-		kind: "main",
+		name:     name,
+		quantity: "42",
 
 		Gender:   gender,
 		Multiple: multiple,
@@ -52,7 +56,9 @@ func NewMainIngredient(name, gender string, multiple bool) StandardMainIngredien
 }
 
 func (i StandardMainIngredient) Name() string { return i.name }
-func (i StandardMainIngredient) Kind() string { return i.kind }
+func (i StandardMainIngredient) NameAndQuantity() string {
+	return fmt.Sprintf("%s %s", i.quantity, i.name)
+}
 
 func NewPool(rnd *rand.Rand) *IngredientsPool {
 	var pool IngredientsPool

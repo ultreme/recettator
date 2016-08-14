@@ -89,10 +89,9 @@ Pour {{ .People }} personnes.
 
 ## Ingrédients
 
-{{ .Pool.MainIngredients }}
-
-{{ .Pool.SecondaryIngredients }}
-
+{{ range .Pool.MainIngredients.Picked }}* {{ .NameAndQuantity }}
+{{ end }}{{ range .Pool.SecondaryIngredients.Picked }}* {{ .NameAndQuantity }}
+{{ end }}
 ## Etapes
 
 {{ .Steps }}
