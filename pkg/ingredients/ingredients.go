@@ -24,12 +24,20 @@ type IngredientsPool struct {
 }
 
 type PoolCategory struct {
-	Availables []Ingredient
-	Picked     []Ingredient
+	rand       *rand.Rand
+	Availables Ingredients
+	Picked     Ingredients
+}
+
+func (i *Ingredients) shuffle(rnd *rand.Rand) {
+	for a := range *i {
+		b := rnd.Intn(len(*i))
+		(*i)[a], (*i)[b] = (*i)[b], (*i)[a]
+	}
 }
 
 func (i *PoolCategory) Pick() Ingredient {
-	// FIXME: shuffle
+	i.Availables.shuffle(i.rand)
 	i.Picked = append(i.Picked, i.Availables[0])
 	i.Availables = i.Availables[1:]
 	return i.Availables[0]
@@ -62,6 +70,8 @@ func (i StandardMainIngredient) NameAndQuantity() string {
 func NewPool(rnd *rand.Rand) *IngredientsPool {
 	var pool IngredientsPool
 	pool.rand = rnd
+
+	pool.MainIngredients.rand = rnd
 	pool.MainIngredients.append(NewMainIngredient("agneau", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("autruche", "female", false))
 	pool.MainIngredients.append(NewMainIngredient("canard", "male", false))
@@ -85,5 +95,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.MainIngredients.append(NewMainIngredient("surimi", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("veau", "male", false))
 	// pool.MainIngredients.append(NewMainIngredient("", "", false))
+
+	pool.SecondaryIngredients.rand = rnd
 	return &pool
 }
