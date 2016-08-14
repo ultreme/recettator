@@ -11,9 +11,7 @@ func (i *PoolCategory) append(ingredient Ingredient) {
 
 type Ingredient interface {
 	Name() string
-	// Gender() string
-	// Quantity() string
-
+	Quantity() string
 	NameAndQuantity() string
 }
 
@@ -48,16 +46,17 @@ type StandardMainIngredient struct {
 func NewMainIngredient(name, gender string, multiple bool) StandardMainIngredient {
 	return StandardMainIngredient{
 		name:     name,
-		quantity: "42",
+		quantity: "42 grammes d'",
 
 		Gender:   gender,
 		Multiple: multiple,
 	}
 }
 
-func (i StandardMainIngredient) Name() string { return i.name }
+func (i StandardMainIngredient) Name() string     { return i.name }
+func (i StandardMainIngredient) Quantity() string { return i.quantity }
 func (i StandardMainIngredient) NameAndQuantity() string {
-	return fmt.Sprintf("%s %s", i.quantity, i.name)
+	return fmt.Sprintf("%s%s", i.quantity, i.name)
 }
 
 func NewPool(rnd *rand.Rand) *IngredientsPool {
