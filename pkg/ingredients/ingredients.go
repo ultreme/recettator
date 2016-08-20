@@ -105,6 +105,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 
 	pool.MainIngredients.rand = rnd
 	pool.MainIngredients.append(NewMainIngredient("agneau", "male", false))
+        pool.MainIngredients.append(NewMainIngredient("âne", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("autruche", "female", false))
 	pool.MainIngredients.append(NewMainIngredient("canard", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("carpe", "female", false))
