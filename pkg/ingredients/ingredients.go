@@ -125,6 +125,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.MainIngredients.append(NewMainIngredient("poney", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("poulet", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("requin", "male", false))
+	pool.MainIngredients.append(NewMainIngredient("salamandre", "female", false))
 	pool.MainIngredients.append(NewMainIngredient("sanglier", "male", false))
 	pool.MainIngredients.append(NewMainIngredient("saucisse", "female", false))
 	pool.MainIngredients.append(NewMainIngredient("saucisses Knacki®", "female", true))
