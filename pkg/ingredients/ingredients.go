@@ -103,6 +103,9 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 			options = append(options, "un relativement gros ")
 			options = append(options, "du ")
 			options = append(options, "un moyen ")
+			options = append(options, "un demi ")
+			options = append(options, "un petit ")
+			options = append(options, "un gros ")
 		}
 		if ingredient.Gender == "female" && !ingredient.Multiple {
 			options = append(options, "une bonne grosse ")
@@ -111,20 +114,26 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 			options = append(options, "une relativement grosse ")
 			options = append(options, "de la ")
 			options = append(options, "une moyenne ")
+			options = append(options, "une petite ")
+			options = append(options, "une grosse ")
 		}
 		if ingredient.Gender == "male" && ingredient.Multiple {
 			options = append(options, "plusieurs gros ")
 			options = append(options, "quelques gros ")
-			options = append(options, "des ")
-			options = append(options, "des ")
+			options = append(options, "quelques petites ")
 		}
 		if ingredient.Gender == "female" && ingredient.Multiple {
 			options = append(options, "plusieurs grosses ")
 			options = append(options, "quelques grosses ")
+			options = append(options, "quelques petites ")
+		}
+		if ingredient.Multiple {
+			options = append(options, "quelques ")
+			options = append(options, "plusieurs ")
 			options = append(options, "des ")
 		}
 
-		for _, beginning := range []string{"une quantité suffisante", "pas mal", "quelques morceaux", "un bon paquet", "beaucoup", "un peu", "un tout petit peu", "une pincée"} {
+		for _, beginning := range []string{"une quantité suffisante", "pas mal", "quelques morceaux", "un bon paquet", "beaucoup", "un peu", "un tout petit peu", "beaucoup"} {
 			if beginsWithVoyel(ingredient.name) {
 				options = append(options, fmt.Sprintf("%s d'", beginning))
 			} else {
