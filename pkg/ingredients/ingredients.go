@@ -51,14 +51,39 @@ type MainIngredient struct {
 	Multiple bool
 }
 
-func NewMainIngredient(name, gender string, multiple bool) MainIngredient {
-	return MainIngredient{
-		name:     name,
-		quantity: "42 grammes d'",
+func (i *MainIngredient) beginsWithVoyel() bool {
+	switch i.name[0] {
+	case 'a', 'e', 'i', 'o', 'u', 'y':
+		return true
+	default:
+		return false
+	}
+}
 
+/*func (i *MainIngredient) genderize(...) {
+}*/
+
+func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainIngredient {
+	ingredient := MainIngredient{
+		name:     name,
 		Gender:   gender,
 		Multiple: multiple,
 	}
+
+	switch rnd.Intn(3) {
+	case 0:
+		value := (rnd.Intn(50) + 1) * 10
+		ingredient.quantity = fmt.Sprintf("%d %s", value, "grammes de")
+		break
+	case 1:
+		value := rnd.Intn(6) + 2
+		ingredient.quantity = fmt.Sprintf("%d %s", value, "tranches de")
+		break
+	case 2:
+		break
+	}
+
+	return ingredient
 }
 
 func (i MainIngredient) Kind() string { return "main-ingredient" }
@@ -104,40 +129,40 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.rand = rnd
 
 	pool.MainIngredients.rand = rnd
-	pool.MainIngredients.append(NewMainIngredient("agneau", "male", false))
-        pool.MainIngredients.append(NewMainIngredient("âne", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("autruche", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("calamar", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("canard", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("carpe", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("cheval", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("chips", "female", true))
-	pool.MainIngredients.append(NewMainIngredient("dinde", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("foie d'oie", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("foie gras", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("gambas", "female", true))
-	pool.MainIngredients.append(NewMainIngredient("jambon", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("langouste", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("langoustine", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("lapin", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("lardons", "male", true))
-	pool.MainIngredients.append(NewMainIngredient("lièvre", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("lotte", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("mouette", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("nems", "male", true))
-	pool.MainIngredients.append(NewMainIngredient("oie", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("pieuvre", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("poney", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("poulet", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("requin", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("salamandre", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("sanglier", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("saucisse", "female", false))
-	pool.MainIngredients.append(NewMainIngredient("saucisses Knacki®", "female", true))
-	pool.MainIngredients.append(NewMainIngredient("soja", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("surimi", "male", false))
-	pool.MainIngredients.append(NewMainIngredient("veau", "male", false))
-	// pool.MainIngredients.append(NewMainIngredient("", "", false))
+	pool.MainIngredients.append(NewMainIngredient("agneau", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("autruche", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("calamar", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("canard", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("carpe", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("cheval", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("chips", "female", true, rnd))
+	pool.MainIngredients.append(NewMainIngredient("dinde", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("foie d'oie", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("foie gras", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("gambas", "female", true, rnd))
+	pool.MainIngredients.append(NewMainIngredient("jambon", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("langouste", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("langoustine", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("lapin", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("lardons", "male", true, rnd))
+	pool.MainIngredients.append(NewMainIngredient("lièvre", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("lotte", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("mouette", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("nems", "male", true, rnd))
+	pool.MainIngredients.append(NewMainIngredient("oie", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("pieuvre", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("poney", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("poulet", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("requin", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("salamandre", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("sanglier", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("saucisse", "female", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("saucisses Knacki®", "female", true, rnd))
+	pool.MainIngredients.append(NewMainIngredient("soja", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("surimi", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("veau", "male", false, rnd))
+	pool.MainIngredients.append(NewMainIngredient("âne", "male", false, rnd))
+	// pool.MainIngredients.append(NewMainIngredient("", "", false, rnd))
 
 	pool.SecondaryIngredients.rand = rnd
 	return &pool
