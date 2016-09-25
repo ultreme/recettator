@@ -3,6 +3,7 @@ package ingredients
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 )
 
 func (i *PoolCategory) append(ingredient Ingredient) {
@@ -51,18 +52,6 @@ type MainIngredient struct {
 	Multiple bool
 }
 
-func (i *MainIngredient) beginsWithVoyel() bool {
-	switch i.name[0] {
-	case 'a', 'e', 'i', 'o', 'u', 'y':
-		return true
-	default:
-		return false
-	}
-}
-
-/*func (i *MainIngredient) genderize(...) {
-}*/
-
 func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainIngredient {
 	ingredient := MainIngredient{
 		name:     name,
@@ -70,16 +59,83 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 		Multiple: multiple,
 	}
 
-	switch rnd.Intn(3) {
-	case 0:
-		value := (rnd.Intn(50) + 1) * 10
-		ingredient.quantity = fmt.Sprintf("%d %s", value, "grammes de")
-		break
-	case 1:
-		value := rnd.Intn(6) + 2
-		ingredient.quantity = fmt.Sprintf("%d %s", value, "tranches de")
+	var words []string
+
+	switch i := rnd.Intn(3); i {
+	case 0, 1:
+		var value int
+		var unit string
+		switch i {
+		case 0:
+			value = (rnd.Intn(50) + 1) * 10
+			if value == 1 {
+				unit = "gramme"
+			} else {
+				unit = "grammes"
+			}
+			break
+		case 1:
+			value = rnd.Intn(6) + 2
+			if value == 1 {
+				unit = "tranche"
+			} else {
+				unit = "tranches"
+			}
+			break
+		}
+
+		words = append(words, fmt.Sprintf("%d", value), unit)
+
+		if beginsWithVoyel(ingredient.name) {
+			words = append(words, "d'")
+		} else {
+			words = append(words, "de ")
+		}
+		ingredient.quantity = strings.Join(words, " ")
 		break
 	case 2:
+		options := []string{}
+
+		if ingredient.Gender == "male" && !ingredient.Multiple {
+			options = append(options, "un bon gros ")
+			options = append(options, "un assez gros ")
+			options = append(options, "un plutôt gros ")
+			options = append(options, "un relativement gros ")
+			options = append(options, "du ")
+			options = append(options, "un moyen ")
+		}
+		if ingredient.Gender == "female" && !ingredient.Multiple {
+			options = append(options, "une bonne grosse ")
+			options = append(options, "une assez grosse ")
+			options = append(options, "une plutôt grosse ")
+			options = append(options, "une relativement grosse ")
+			options = append(options, "de la ")
+			options = append(options, "une moyenne ")
+		}
+		if ingredient.Gender == "male" && ingredient.Multiple {
+			options = append(options, "plusieurs gros ")
+			options = append(options, "quelques gros ")
+			options = append(options, "des ")
+			options = append(options, "des ")
+		}
+		if ingredient.Gender == "female" && ingredient.Multiple {
+			options = append(options, "plusieurs grosses ")
+			options = append(options, "quelques grosses ")
+			options = append(options, "des ")
+		}
+
+		for _, beginning := range []string{"une quantité suffisante", "pas mal", "quelques morceaux", "un bon paquet", "beaucoup", "un peu", "un tout petit peu", "une pincée"} {
+			if beginsWithVoyel(ingredient.name) {
+				options = append(options, fmt.Sprintf("%s d'", beginning))
+			} else {
+				options = append(options, fmt.Sprintf("%s de ", beginning))
+			}
+		}
+
+		if len(options) > 0 {
+			ingredient.quantity = options[rand.Intn(len(options))]
+		}
+
 		break
 	}
 
