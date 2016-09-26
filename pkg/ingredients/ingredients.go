@@ -144,7 +144,17 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 			options = append(options, "des ")
 		}
 
-		for _, beginning := range []string{"une quantité suffisante", "pas mal", "quelques morceaux", "un bon paquet", "beaucoup", "un peu", "un tout petit peu", "beaucoup"} {
+		beginnings := []string{
+			"une quantité suffisante",
+			"pas mal",
+			"quelques morceaux",
+			"un bon paquet",
+			"beaucoup",
+			"un peu",
+			"un tout petit peu",
+			"beaucoup",
+		}
+		for _, beginning := range beginnings {
 			if beginsWithVoyel(ingredient.name) {
 				options = append(options, fmt.Sprintf("%s d'", beginning))
 			} else {
