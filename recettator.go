@@ -111,7 +111,7 @@ func (r *Recettator) Markdown() (string, error) {
 	tmpl, err := templates.New(strings.TrimSpace(`
 # {{ .Title }}
 
-Pour {{ .People }} personnes.
+Pour {{ .People }} {{ if eq .People 1 }}personne{{ else }}personnes{{ end }}.
 
 ## Ingrédients
 
