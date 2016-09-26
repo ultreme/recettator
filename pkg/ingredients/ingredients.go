@@ -14,6 +14,7 @@ type Ingredient interface {
 	Name() string
 	Kind() string
 	NameAndQuantity() string
+	ToMap() map[string]interface{}
 }
 
 type Ingredients []Ingredient
@@ -28,6 +29,16 @@ type PoolCategory struct {
 	rand       *rand.Rand
 	Availables Ingredients
 	Picked     Ingredients
+}
+
+type IngredientMap map[string]interface{}
+
+func (i *Ingredients) ToMap() []IngredientMap {
+	ret := []IngredientMap{}
+	for _, ingredient := range *i {
+		ret = append(ret, ingredient.ToMap())
+	}
+	return ret
 }
 
 func (i *Ingredients) shuffle(rnd *rand.Rand) {
@@ -155,6 +166,17 @@ func (i MainIngredient) Kind() string { return "main-ingredient" }
 func (i MainIngredient) Name() string { return i.name }
 func (i MainIngredient) NameAndQuantity() string {
 	return fmt.Sprintf("%s%s", i.quantity, i.name)
+}
+
+func (i MainIngredient) ToMap() map[string]interface{} {
+	ret := make(map[string]interface{}, 0)
+	ret["name"] = i.name
+	ret["kind"] = i.Kind()
+	ret["name-and-quantity"] = i.NameAndQuantity()
+	ret["quantity"] = i.quantity
+	ret["is-multiple"] = i.Multiple
+	ret["gender"] = i.Gender
+	return ret
 }
 
 type SecondaryIngredient struct {

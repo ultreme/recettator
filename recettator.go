@@ -141,9 +141,9 @@ func (r *Recettator) JSON() string {
 	export["steps"] = r.steps
 	export["people"] = r.people
 	export["settings"] = r.settings
-	export["pool"] = map[string]interface{}{
-		"main-ingredients":      r.pool.MainIngredients.Picked,
-		"secondary-ingredients": r.pool.SecondaryIngredients.Picked,
+	export["pool"] = map[string][]ingredients.IngredientMap{
+		"main-ingredients":      r.pool.MainIngredients.Picked.ToMap(),
+		"secondary-ingredients": r.pool.SecondaryIngredients.Picked.ToMap(),
 	}
 	output, _ := json.MarshalIndent(export, "", "  ")
 	return string(output)
