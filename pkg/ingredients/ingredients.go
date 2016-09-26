@@ -15,6 +15,7 @@ type Ingredient interface {
 	Kind() string
 	NameAndQuantity() string
 	ToMap() map[string]interface{}
+	TitlePart(left *Ingredient) string
 }
 
 type Ingredients []Ingredient
@@ -58,9 +59,29 @@ func (i *PoolCategory) Pick() Ingredient {
 type MainIngredient struct {
 	name     string
 	quantity string
+	rand     *rand.Rand
 
 	Gender   string
 	Multiple bool
+}
+
+func (i MainIngredient) TitlePart(left *Ingredient) string {
+	if left == nil {
+		return i.name
+	}
+
+	ret := ""
+	switch i.rand.Intn(2) {
+	case 0:
+		// FIXME: genderize
+		ret = fmt.Sprintf("aux %s", i.name)
+		break
+	case 1:
+		// FIXME: genderize
+		ret = fmt.Sprintf("assortis de %s", i.name)
+		break
+	}
+	return ret
 }
 
 func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainIngredient {
@@ -68,6 +89,7 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 		name:     name,
 		Gender:   gender,
 		Multiple: multiple,
+		rand:     rnd,
 	}
 
 	var words []string
