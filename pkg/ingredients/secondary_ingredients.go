@@ -1,10 +1,14 @@
 package ingredients
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 type SecondaryIngredient struct {
 	name          string
-	isMale        bool
+	gender        string
+	quantity      string
 	isMultiple    bool
 	isUncountable bool
 	isPowder      bool
@@ -14,22 +18,57 @@ type SecondaryIngredient struct {
 	isSpreadable  bool
 }
 
-func NewSecondaryIngredient(name string, male, multiple, uncountable, powder, citrus, spice, byPiece, spreadable bool) SecondaryIngredient {
-	return SecondaryIngredient{
-		name:          name,
-		isMale:        male,
-		isMultiple:    multiple,
-		isUncountable: uncountable,
-		isPowder:      powder,
-		isCitrus:      citrus,
-		isSpice:       spice,
-		isByPiece:     byPiece,
-		isSpreadable:  spreadable,
+func NewSecondaryIngredient(name string, gender string, isMultiple bool, rnd *rand.Rand) *SecondaryIngredient {
+	ingredient := SecondaryIngredient{
+		name:       name,
+		gender:     gender,
+		isMultiple: isMultiple,
+		/*
+			isMultiple:
+			isUncountable:
+			isPowder:
+			isCitrus:
+			isSpice:
+			isByPiece:
+			isSpreadable:
+		*/
 	}
+	// FIXME: compute quantity
+	return &ingredient
 }
 
 func (i SecondaryIngredient) Kind() string { return "secondary-ingredient" }
 func (i SecondaryIngredient) Name() string { return i.name }
 func (i SecondaryIngredient) NameAndQuantity() string {
-	return fmt.Sprintf("du %s", i.name)
+	return fmt.Sprintf("%s%s", i.quantity, i.name)
 }
+func (i SecondaryIngredient) GetGender() string { return i.gender }
+func (i SecondaryIngredient) IsMultiple() bool  { return i.isMultiple }
+func (i SecondaryIngredient) TitlePart(left Ingredient) string {
+	// FIXME: implement
+	return ""
+}
+
+func (i SecondaryIngredient) ToMap() map[string]interface{} {
+	ret := make(map[string]interface{}, 0)
+	ret["name"] = i.name
+	ret["kind"] = i.Kind()
+	ret["name-and-quantity"] = i.NameAndQuantity()
+	ret["quantity"] = i.quantity
+	ret["is-multiple"] = i.isMultiple
+	ret["gender"] = i.gender
+	ret["is-by-piece"] = i.isByPiece
+	ret["is-uncountable"] = i.isUncountable
+	ret["is-powder"] = i.isPowder
+	ret["is-citrus"] = i.isCitrus
+	ret["is-spice"] = i.isSpice
+	ret["is-spreadable"] = i.isSpreadable
+	return ret
+}
+
+func (i *SecondaryIngredient) SetIsByPiece() *SecondaryIngredient {
+	i.isByPiece = true
+	return i
+}
+
+//, uncountable, powder, citrus, spice, byPiece, spreadable bool) SecondaryIngredient {

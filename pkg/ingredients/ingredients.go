@@ -95,5 +95,9 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	// pool.MainIngredients.append(NewMainIngredient("", "", false, rnd))
 
 	pool.SecondaryIngredients.rand = rnd
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("noisettes", "female", true, rnd).SetIsByPiece())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("amandes", "female", true, rnd).SetIsByPiece())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("noix", "female", true, rnd).SetIsByPiece())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("pommes de terre", "female", true, rnd).SetIsByPiece())
 	return &pool
 }
