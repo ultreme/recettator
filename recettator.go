@@ -84,10 +84,10 @@ func (r *Recettator) prepare() {
 
 	// compute fields
 	titleParts := []string{}
-	var left *ingredients.Ingredient
+	var left ingredients.Ingredient
 	for _, ingredient := range r.pool.MainIngredients.Picked {
 		titleParts = append(titleParts, ingredient.TitlePart(left))
-		left = &ingredient
+		left = ingredient
 	}
 	r.title = strings.Join(titleParts, " ")
 	r.people = uint64(r.rnd.Intn(4) + 1)

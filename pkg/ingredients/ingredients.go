@@ -15,7 +15,9 @@ type Ingredient interface {
 	Kind() string
 	NameAndQuantity() string
 	ToMap() map[string]interface{}
-	TitlePart(left *Ingredient) string
+	TitlePart(left Ingredient) string
+	IsMultiple() bool
+	GetGender() string
 }
 
 type Ingredients []Ingredient
@@ -65,23 +67,47 @@ type MainIngredient struct {
 	Multiple bool
 }
 
-func (i MainIngredient) TitlePart(left *Ingredient) string {
+func (i MainIngredient) IsMultiple() bool  { return i.Multiple }
+func (i MainIngredient) GetGender() string { return i.Gender }
+
+func (i MainIngredient) TitlePart(left Ingredient) string {
+	// fixme: get a random possibility not the first one that trigger
 	if left == nil {
 		return i.name
 	}
 
-	ret := ""
 	switch i.rand.Intn(2) {
 	case 0:
-		// FIXME: genderize
-		ret = fmt.Sprintf("aux %s", i.name)
-		break
+		switch {
+		case i.Multiple:
+			return fmt.Sprintf("aux %s", i.name)
+		case beginsWithVoyel(i.name):
+			return fmt.Sprintf("à l'%s", i.name)
+		case i.Gender == "male":
+			return fmt.Sprintf("au %s", i.name)
+		case i.Gender == "female":
+			return fmt.Sprintf("à la %s", i.name)
+		}
 	case 1:
-		// FIXME: genderize
-		ret = fmt.Sprintf("assortis de %s", i.name)
-		break
+		var suffix string
+		if beginsWithVoyel(i.name) {
+			suffix = "d'"
+		} else {
+			suffix = "de "
+		}
+
+		switch {
+		case left.GetGender() == "male" && !left.IsMultiple():
+			return fmt.Sprintf("assorti %s%s", suffix, i.name)
+		case left.GetGender() == "female" && !left.IsMultiple():
+			return fmt.Sprintf("assortie %s%s", suffix, i.name)
+		case left.GetGender() == "male" && left.IsMultiple():
+			return fmt.Sprintf("assortis %s%s", suffix, i.name)
+		case left.GetGender() == "female" && left.IsMultiple():
+			return fmt.Sprintf("assorties %s%s", suffix, i.name)
+		}
 	}
-	return ret
+	panic("should not happen")
 }
 
 func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainIngredient {
