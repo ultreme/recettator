@@ -74,12 +74,52 @@ func (i *SecondaryIngredient) prepare() {
 		}
 		break
 	case i.isByPiece:
+		if i.isMultiple {
+			value := i.rand.Intn(20) + 2
+			i.quantity = fmt.Sprintf("%d ", value)
+		} else {
+			i.quantity = "1 "
+		}
 		break
 	case i.isSpice:
+		suffix := "de "
+		if beginsWithVoyel(i.name) {
+			suffix = "d'"
+		}
+		options := []string{
+			fmt.Sprintf("une poignée %s", suffix),
+			fmt.Sprintf("une dosette %s", suffix),
+			fmt.Sprintf("un verre %s", suffix),
+			fmt.Sprintf("une pincée %s", suffix),
+		}
+		i.quantity = options[i.rand.Intn(len(options))]
 		break
 	case i.isSpreadable:
+		suffix := "de "
+		if beginsWithVoyel(i.name) {
+			suffix = "d'"
+		}
+		options := []string{
+			fmt.Sprintf("une noix %s", suffix),
+			fmt.Sprintf("un morceau %s", suffix),
+			fmt.Sprintf("une dose %s", suffix),
+			fmt.Sprintf("une cuillère à café %s", suffix),
+			fmt.Sprintf("une cuillère à soupe %s", suffix),
+		}
+		i.quantity = options[i.rand.Intn(len(options))]
 		break
 	case i.isCitrus:
+		suffix := "de "
+		if beginsWithVoyel(i.name) {
+			suffix = "d'"
+		}
+		options := []string{
+			fmt.Sprintf("un zeste %s", suffix),
+			fmt.Sprintf("un quartier %s", suffix),
+			fmt.Sprintf("une pelure %s", suffix),
+			fmt.Sprintf("de la pulpe %s", suffix),
+		}
+		i.quantity = options[i.rand.Intn(len(options))]
 		break
 	}
 }
