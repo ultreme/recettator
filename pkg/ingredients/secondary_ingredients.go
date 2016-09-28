@@ -124,6 +124,11 @@ func (i *SecondaryIngredient) prepare() {
 	}
 }
 
+func (i SecondaryIngredient) GetSteps() Steps {
+	steps := make(Steps, 0)
+	return steps
+}
+
 func (i SecondaryIngredient) Kind() string { return "secondary-ingredient" }
 func (i SecondaryIngredient) Name() string { return i.name }
 func (i SecondaryIngredient) NameAndQuantity() string {

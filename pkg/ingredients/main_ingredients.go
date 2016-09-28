@@ -125,6 +125,19 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 	return ingredient
 }
 
+func (i MainIngredient) nameWithPrefix() string {
+	return "blah " + i.name
+}
+
+func (i MainIngredient) GetSteps() Steps {
+	steps := make(Steps, 0)
+	steps = append(steps, Step{
+		Instruction: fmt.Sprintf("découpez %s en fines petites tranches", i.nameWithPrefix()),
+		Weight:      -100,
+	})
+	return steps
+}
+
 func (i MainIngredient) IsMultiple() bool  { return i.Multiple }
 func (i MainIngredient) GetGender() string { return i.Gender }
 

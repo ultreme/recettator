@@ -6,6 +6,22 @@ func (i *PoolCategory) append(ingredient Ingredient) {
 	i.Availables = append(i.Availables, ingredient)
 }
 
+type Step struct {
+	Instruction string
+	Weight      int
+}
+
+type Steps []Step
+
+func (s *Steps) List() []string {
+	list := []string{}
+	// FIXME: sort by weight + shuffle
+	for _, step := range *s {
+		list = append(list, step.Instruction)
+	}
+	return list
+}
+
 type Ingredient interface {
 	Name() string
 	Kind() string
@@ -14,6 +30,7 @@ type Ingredient interface {
 	TitlePart(left Ingredient) string
 	IsMultiple() bool
 	GetGender() string
+	GetSteps() Steps
 }
 
 type Ingredients []Ingredient
@@ -52,6 +69,14 @@ func (i *PoolCategory) Pick() Ingredient {
 	i.Picked = append(i.Picked, i.Availables[0])
 	i.Availables = i.Availables[1:]
 	return i.Availables[0]
+}
+
+func (i *PoolCategory) GetSteps() Steps {
+	steps := make(Steps, 0)
+	for _, ingredient := range i.Picked {
+		steps = append(steps, ingredient.GetSteps()...)
+	}
+	return steps
 }
 
 func NewPool(rnd *rand.Rand) *IngredientsPool {

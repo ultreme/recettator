@@ -23,7 +23,7 @@ type Recettator struct {
 	// components
 	title  string
 	people uint64
-	steps  Steps
+	steps  []string
 	pool   *ingredients.IngredientsPool
 
 	// settings
@@ -39,7 +39,7 @@ func New(seed int64) Recettator {
 	rnd := rand.New(rand.NewSource(seed))
 	return Recettator{
 		seed:  seed,
-		steps: make(Steps, 0),
+		steps: make([]string, 0),
 		pool:  ingredients.NewPool(rnd),
 		rnd:   rnd,
 	}
@@ -86,7 +86,10 @@ func (r *Recettator) prepare() {
 	titleParts := []string{}
 	var left ingredients.Ingredient
 
-	pickedIngredients := append(r.pool.MainIngredients.Picked, r.pool.SecondaryIngredients.Picked...)
+	pickedIngredients := append(
+		r.pool.MainIngredients.Picked,
+		r.pool.SecondaryIngredients.Picked...,
+	)
 
 	for _, ingredient := range pickedIngredients {
 		titleParts = append(titleParts, ingredient.TitlePart(left))
@@ -94,6 +97,12 @@ func (r *Recettator) prepare() {
 	}
 	r.title = strings.Join(titleParts, " ")
 	r.people = uint64(r.rnd.Intn(4) + 1)
+
+	steps := append(
+		r.pool.MainIngredients.GetSteps(),
+		r.pool.SecondaryIngredients.GetSteps()...,
+	)
+	r.steps = steps.List()
 
 	r.ready = true
 }
@@ -103,7 +112,7 @@ func (r *Recettator) Settings() Settings                 { return r.settings }
 func (r *Recettator) Title() string                      { r.prepare(); return r.title }
 func (r *Recettator) People() uint64                     { r.prepare(); return r.people }
 func (r *Recettator) Pool() *ingredients.IngredientsPool { r.prepare(); return r.pool }
-func (r *Recettator) Steps() Steps                       { r.prepare(); return r.steps }
+func (r *Recettator) Steps() []string                    { r.prepare(); return r.steps }
 
 func (r *Recettator) SetSettings(settings Settings) {
 	r.settings = settings
