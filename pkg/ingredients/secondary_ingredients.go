@@ -70,5 +70,25 @@ func (i *SecondaryIngredient) SetIsByPiece() *SecondaryIngredient {
 	i.isByPiece = true
 	return i
 }
+func (i *SecondaryIngredient) SetIsSpreadable() *SecondaryIngredient {
+	i.isSpreadable = true
+	return i
+}
+func (i *SecondaryIngredient) SetIsPowder() *SecondaryIngredient {
+	i.isPowder = true
+	return i
+}
+func (i *SecondaryIngredient) SetIsUncountable() *SecondaryIngredient {
+	i.isUncountable = true
+	return i
+}
+func (i *SecondaryIngredient) SetIsSpice() *SecondaryIngredient {
+	i.isSpice = true
+	return i
+}
+func (i *SecondaryIngredient) SetIsCitrus() *SecondaryIngredient {
+	i.isCitrus = true
+	return i
+}
 
 //, uncountable, powder, citrus, spice, byPiece, spreadable bool) SecondaryIngredient {
