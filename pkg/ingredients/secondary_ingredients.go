@@ -136,7 +136,34 @@ func (i SecondaryIngredient) GetGender() string { return i.gender }
 func (i SecondaryIngredient) IsMultiple() bool  { return i.isMultiple }
 func (i SecondaryIngredient) TitlePart(left Ingredient) string {
 	// FIXME: implement
-	return ""
+	if left == nil {
+		return i.name
+	}
+
+	part := ""
+
+	switch left.Kind() {
+	case "main-ingredient", "secondary-ingredient":
+		if i.rand.Intn(10) < 5 {
+			part += "et "
+		}
+	}
+	switch {
+	case i.isMultiple:
+		part += "aux "
+		break
+	case beginsWithVoyel(i.name):
+		part += "à l'"
+		break
+	case i.gender == "male":
+		part += "au "
+		break
+	case i.gender == "female":
+		part += "à la "
+		break
+	}
+	part += i.name
+	return part
 }
 
 func (i SecondaryIngredient) ToMap() map[string]interface{} {

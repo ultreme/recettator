@@ -85,7 +85,10 @@ func (r *Recettator) prepare() {
 	// compute fields
 	titleParts := []string{}
 	var left ingredients.Ingredient
-	for _, ingredient := range r.pool.MainIngredients.Picked {
+
+	pickedIngredients := append(r.pool.MainIngredients.Picked, r.pool.SecondaryIngredients.Picked...)
+
+	for _, ingredient := range pickedIngredients {
 		titleParts = append(titleParts, ingredient.TitlePart(left))
 		left = ingredient
 	}
