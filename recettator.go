@@ -132,8 +132,8 @@ Pour {{ .People }} {{ if eq .People 1 }}personne{{ else }}personnes{{ end }}.
 {{ end }}
 ## Etapes
 
-{{ .Steps }}
-`))
+{{ range .Steps }}* {{.}}
+{{end}}`))
 	if err != nil {
 		return "", err
 	}
