@@ -126,15 +126,42 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 }
 
 func (i MainIngredient) nameWithPrefix() string {
-	return "blah " + i.name
+	switch {
+	case i.Multiple:
+		return fmt.Sprintf("les %s", i.name)
+	case beginsWithVoyel(i.name):
+		return fmt.Sprintf("l'%s", i.name)
+	case i.Gender == "male":
+		return fmt.Sprintf("le %s", i.name)
+	case i.Gender == "female":
+		return fmt.Sprintf("la %s", i.name)
+	}
+	return ""
 }
 
 func (i MainIngredient) GetSteps() Steps {
 	steps := make(Steps, 0)
-	steps = append(steps, Step{
-		Instruction: fmt.Sprintf("découpez %s en fines petites tranches", i.nameWithPrefix()),
-		Weight:      -100,
-	})
+
+	availableStartSteps := Steps{
+		Step{
+			Instruction: fmt.Sprintf("découpez %s en fines petites tranches", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+	}
+
+	availableFinishSteps := Steps{
+		Step{
+			Instruction: fmt.Sprintf("déposez %s juste au dessus", i.nameWithPrefix()),
+			Weight:      100,
+		},
+	}
+
+	steps = append(steps, availableStartSteps[i.rand.Intn(len(availableStartSteps))])
+
+	if i.rand.Intn(10) > 1 {
+		steps = append(steps, availableFinishSteps[i.rand.Intn(len(availableFinishSteps))])
+	}
+
 	return steps
 }
 

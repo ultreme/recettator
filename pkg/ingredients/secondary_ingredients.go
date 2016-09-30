@@ -126,7 +126,53 @@ func (i *SecondaryIngredient) prepare() {
 
 func (i SecondaryIngredient) GetSteps() Steps {
 	steps := make(Steps, 0)
+
+	availableStartSteps := Steps{
+		Step{
+			Instruction: fmt.Sprintf("réchauffez %s à feu doux", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("placez %s au bain-marie quelques minutes", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("selon votre goût, vous pouvez voiler %s d'un fond de sucre", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("ajoutez %s par dessus", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("faites cuire %s dans un wok", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("faites chauffer %s et penser à vanne pendant le refroidissement", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+	}
+
+	if i.rand.Intn(10) > 1 {
+		steps = append(steps, availableStartSteps[i.rand.Intn(len(availableStartSteps))])
+	}
+
 	return steps
+}
+
+func (i SecondaryIngredient) nameWithPrefix() string {
+	switch {
+	case i.isMultiple:
+		return fmt.Sprintf("les %s", i.name)
+	case beginsWithVoyel(i.name):
+		return fmt.Sprintf("l'%s", i.name)
+	case i.gender == "male":
+		return fmt.Sprintf("le %s", i.name)
+	case i.gender == "female":
+		return fmt.Sprintf("la %s", i.name)
+	}
+	return ""
 }
 
 func (i SecondaryIngredient) Kind() string { return "secondary-ingredient" }
