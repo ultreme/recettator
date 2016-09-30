@@ -1,6 +1,9 @@
 package ingredients
 
-import "math/rand"
+import (
+	"math/rand"
+	"sort"
+)
 
 func (i *PoolCategory) append(ingredient Ingredient) {
 	i.Availables = append(i.Availables, ingredient)
@@ -13,12 +16,36 @@ type Step struct {
 
 type Steps []Step
 
-func (s *Steps) List() []string {
-	list := []string{}
-	// FIXME: sort by weight + shuffle
-	for _, step := range *s {
-		list = append(list, step.Instruction)
+func (s *Steps) Shuffle(rnd *rand.Rand) {
+	for i := range *s {
+		j := rand.Intn(len(*s))
+		(*s)[i], (*s)[j] = (*s)[j], (*s)[i]
 	}
+}
+
+func (s *Steps) List(rnd *rand.Rand) []string {
+	list := []string{}
+
+	availableWeights := []int{}
+	stepsByWeight := map[int]Steps{}
+	for _, step := range *s {
+		if _, found := stepsByWeight[step.Weight]; !found {
+			stepsByWeight[step.Weight] = make(Steps, 0)
+			availableWeights = append(availableWeights, step.Weight)
+		}
+		stepsByWeight[step.Weight] = append(stepsByWeight[step.Weight], step)
+	}
+
+	sort.Ints(availableWeights)
+
+	for _, weight := range availableWeights {
+		steps := stepsByWeight[weight]
+		steps.Shuffle(rnd)
+		for _, step := range steps {
+			list = append(list, step.Instruction)
+		}
+	}
+
 	return list
 }
 

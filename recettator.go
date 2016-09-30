@@ -102,7 +102,7 @@ func (r *Recettator) prepare() {
 		r.pool.MainIngredients.GetSteps(),
 		r.pool.SecondaryIngredients.GetSteps()...,
 	)
-	r.steps = steps.List()
+	r.steps = steps.List(r.rnd)
 
 	r.ready = true
 }
@@ -133,7 +133,7 @@ Pour {{ .People }} {{ if eq .People 1 }}personne{{ else }}personnes{{ end }}.
 ## Etapes
 
 {{ range .Steps }}* {{.}}
-{{end}}`))
+{{end}} `))
 	if err != nil {
 		return "", err
 	}
