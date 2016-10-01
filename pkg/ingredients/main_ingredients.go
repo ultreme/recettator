@@ -10,12 +10,13 @@ type MainIngredient struct {
 	name     string
 	quantity string
 	rand     *rand.Rand
+	method   *MainIngredientMethod
 
 	Gender   string
 	Multiple bool
 }
 
-func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainIngredient {
+func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) *MainIngredient {
 	ingredient := MainIngredient{
 		name:     name,
 		Gender:   gender,
@@ -122,7 +123,14 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) MainI
 		break
 	}
 
-	return ingredient
+	return &ingredient
+}
+
+func (i *MainIngredient) SetMethod(method *MainIngredientMethod) {
+	if method != nil {
+		method.SetLeft(i)
+		i.method = method
+	}
 }
 
 func (i MainIngredient) nameWithPrefix() string {
@@ -222,5 +230,8 @@ func (i MainIngredient) ToMap() map[string]interface{} {
 	ret["quantity"] = i.quantity
 	ret["is-multiple"] = i.Multiple
 	ret["gender"] = i.Gender
+	//if i.method != nil {
+	//	ret["method"] = i.method.ToMap()
+	//}
 	return ret
 }

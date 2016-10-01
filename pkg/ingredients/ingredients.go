@@ -63,9 +63,10 @@ type Ingredient interface {
 type Ingredients []Ingredient
 
 type IngredientsPool struct {
-	rand                 *rand.Rand
-	MainIngredients      PoolCategory
-	SecondaryIngredients PoolCategory
+	rand                  *rand.Rand
+	MainIngredients       PoolCategory
+	MainIngredientMethods PoolCategory
+	SecondaryIngredients  PoolCategory
 }
 
 type PoolCategory struct {
@@ -95,7 +96,7 @@ func (i *PoolCategory) Pick() Ingredient {
 	i.Availables.shuffle(i.rand)
 	i.Picked = append(i.Picked, i.Availables[0])
 	i.Availables = i.Availables[1:]
-	return i.Availables[0]
+	return i.Picked[len(i.Picked)-1]
 }
 
 func (i *PoolCategory) GetSteps() Steps {
@@ -191,5 +192,15 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("riz", "male", false, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("sel", "male", false, rnd).SetIsSpice())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("tomates", "female", true, rnd).SetIsByPiece())
+
+	pool.MainIngredientMethods.rand = rnd
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("farci", "farcie", "farcis", "farcies", Steps{{"remplissez %left% avec ce que vous voulez", 10}}, rnd))
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("glacé", "glacée", "glacés", "glacées", Steps{{"mettez %left% au réfrigérateur quelques heures", 50}}, rnd))
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("poêlé", "poêlée", "poêlés", "poêlées", Steps{{"faites revenir %left% dans une poêle", 50}}, rnd))
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("roti", "rotie", "rotis", "roties", Steps{{"préchauffez le four pour y mettre %left% par la suite", -50}}, rnd))
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("chaud", "chaude", "chauds", "chaudes", Steps{{"chauffez légerement %left% au four", 50}}, rnd))
+	//pool.MainIngredientMethods.append(NewMainIngredientMethod("découpé", "découpée", "découpés", "découpées", Steps{{"découpez %left% en granches plutôt épaisses", -50}}, rnd))
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("grillé", "grillée", "grillés", "grillées", Steps{{"mettez %left% sur le grill", 50}}, rnd))
+	pool.MainIngredientMethods.append(NewMainIngredientMethod("battu", "battue", "battus", "battues", Steps{{"battez énergiquement %left% avec un fouet", -10}}, rnd))
 	return &pool
 }
