@@ -161,6 +161,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("citron", "male", false, rnd).SetIsCitrus())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("clous de girofle", "male", false, rnd).SetIsSpice())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("confifure d'oranges amères", "female", false, rnd).SetIsSpreadable())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("cornichons", "male", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("cube de Kubor®", "male", false, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("dattes", "female", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("épices", "female", true, rnd).SetIsSpice())
