@@ -151,11 +151,23 @@ func (i MainIngredient) GetSteps() Steps {
 			Instruction: fmt.Sprintf("découpez %s en fines petites tranches", i.nameWithPrefix()),
 			Weight:      -100,
 		},
+		Step{
+			Instruction: fmt.Sprintf("détaillez %s en cubes de 3cm de côté", i.nameWithPrefix()),
+			Weight:      -100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("coupez %s en fines lamelles", i.nameWithPrefix()),
+			Weight:      -100,
+		},
 	}
 
 	availableFinishSteps := Steps{
 		Step{
 			Instruction: fmt.Sprintf("déposez %s juste au dessus", i.nameWithPrefix()),
+			Weight:      100,
+		},
+		Step{
+			Instruction: fmt.Sprintf("versez %s dans une cocotte en fonte de préférence", i.nameWithPrefix()),
 			Weight:      100,
 		},
 	}
