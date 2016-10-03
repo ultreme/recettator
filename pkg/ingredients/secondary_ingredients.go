@@ -19,6 +19,9 @@ type SecondaryIngredient struct {
 	rand          *rand.Rand
 }
 
+func (i *SecondaryIngredient) SetMethod(method Method) { panic("Not implemented") }
+func (i *SecondaryIngredient) GetMethod() Method       { return nil }
+
 func NewSecondaryIngredient(name string, gender string, isMultiple bool, rnd *rand.Rand) *SecondaryIngredient {
 	ingredient := SecondaryIngredient{
 		name:       name,

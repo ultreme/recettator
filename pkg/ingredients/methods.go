@@ -2,7 +2,7 @@ package ingredients
 
 import "math/rand"
 
-type MainIngredientMethod struct {
+type IngredientMethod struct {
 	singleMale     string
 	multipleMale   string
 	singleFemale   string
@@ -12,8 +12,11 @@ type MainIngredientMethod struct {
 	left           Ingredient
 }
 
-func NewMainIngredientMethod(singleMale, multipleMale, singleFemale, multipleFemale string, steps Steps, rnd *rand.Rand) *MainIngredientMethod {
-	return &MainIngredientMethod{
+func (i *IngredientMethod) SetMethod(method Method) { panic("Not implemented") }
+func (i *IngredientMethod) GetMethod() Method       { return nil }
+
+func NewIngredientMethod(singleMale, multipleMale, singleFemale, multipleFemale string, steps Steps, rnd *rand.Rand) *IngredientMethod {
+	return &IngredientMethod{
 		singleMale:     singleMale,
 		multipleMale:   multipleMale,
 		singleFemale:   singleFemale,
@@ -23,22 +26,22 @@ func NewMainIngredientMethod(singleMale, multipleMale, singleFemale, multipleFem
 	}
 }
 
-func (i MainIngredientMethod) SetLeft(left Ingredient) { i.left = left }
-func (i MainIngredientMethod) GetSteps() Steps         { return i.steps }
-func (i MainIngredientMethod) IsMultiple() bool {
+func (i IngredientMethod) SetLeft(left Ingredient) { i.left = left }
+func (i IngredientMethod) GetSteps() Steps         { return i.steps }
+func (i IngredientMethod) IsMultiple() bool {
 	if i.left != nil {
 		return i.left.IsMultiple()
 	}
 	panic("should not happen")
 }
-func (i MainIngredientMethod) GetGender() string {
+func (i IngredientMethod) GetGender() string {
 	if i.left != nil {
 		return i.left.GetGender()
 	}
 	panic("should not happen")
 }
 
-func (i MainIngredientMethod) TitlePart(left Ingredient) string {
+func (i IngredientMethod) TitlePart(left Ingredient) string {
 	if left == nil {
 		return i.singleMale
 	}
@@ -57,11 +60,11 @@ func (i MainIngredientMethod) TitlePart(left Ingredient) string {
 	panic("should not happen")
 }
 
-func (i MainIngredientMethod) Kind() string            { return "main-ingredient-method" }
-func (i MainIngredientMethod) Name() string            { return i.TitlePart(i.left) }
-func (i MainIngredientMethod) NameAndQuantity() string { return i.Name() }
+func (i IngredientMethod) Kind() string            { return "main-ingredient-method" }
+func (i IngredientMethod) Name() string            { return i.TitlePart(i.left) }
+func (i IngredientMethod) NameAndQuantity() string { return i.Name() }
 
-func (i MainIngredientMethod) ToMap() map[string]interface{} {
+func (i IngredientMethod) ToMap() map[string]interface{} {
 	ret := make(map[string]interface{}, 0)
 	ret["name"] = i.Name()
 	ret["kind"] = i.Kind()

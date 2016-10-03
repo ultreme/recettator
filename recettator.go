@@ -62,19 +62,14 @@ func (r *Recettator) pickItems() {
 		r.pool.SecondaryIngredients.Pick()
 	}
 
-	/*for idx := range r.pool.MainIngredients.Picked {
+	for _, ingredient := range r.pool.MainIngredients.Picked {
 		if r.rnd.Intn(20) < 2 {
 			continue
 		}
-		if methodIngredient := r.pool.MainIngredientMethods.Pick(); methodIngredient != nil {
-			method := (*methodIngredient).(*ingredients.MainIngredientMethod)
-			ingredient := ((*r.pool.MainIngredients.Picked[idx]).(*ingredients.MainIngredient))
+		if method := r.pool.IngredientMethods.Pick(); method != nil {
 			ingredient.SetMethod(method)
-			//ingredient.SetMethod(&method)
-			//r.pool.MainIngredients.Picked[idx].SetMethod(&method)
-			//fmt.Println(ingredient.ToMap())
 		}
-	}*/
+	}
 }
 
 func (r *Recettator) isValid() error {
