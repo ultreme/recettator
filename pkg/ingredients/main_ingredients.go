@@ -166,6 +166,13 @@ func (i MainIngredient) GetSteps() Steps {
 		steps = append(steps, availableFinishSteps[i.rand.Intn(len(availableFinishSteps))])
 	}
 
+	if i.method != nil {
+		for _, step := range i.method.GetSteps() {
+			step.Instruction = strings.Replace(step.Instruction, "%left%", i.nameWithPrefix(), -1)
+			steps = append(steps, step)
+		}
+	}
+
 	return steps
 }
 
@@ -173,7 +180,6 @@ func (i MainIngredient) IsMultiple() bool  { return i.Multiple }
 func (i MainIngredient) GetGender() string { return i.Gender }
 
 func (i MainIngredient) TitlePart(left Ingredient) string {
-	// fixme: get a random possibility not the first one that trigger
 	if left == nil {
 		return i.name
 	}
