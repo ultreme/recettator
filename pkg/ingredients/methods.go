@@ -15,7 +15,7 @@ type IngredientMethod struct {
 func (i *IngredientMethod) SetMethod(method Method) { panic("Not implemented") }
 func (i *IngredientMethod) GetMethod() Method       { return nil }
 
-func NewIngredientMethod(singleMale, multipleMale, singleFemale, multipleFemale string, steps Steps, rnd *rand.Rand) *IngredientMethod {
+func NewIngredientMethod(singleMale, singleFemale, multipleMale, multipleFemale string, steps Steps, rnd *rand.Rand) *IngredientMethod {
 	return &IngredientMethod{
 		singleMale:     singleMale,
 		multipleMale:   multipleMale,

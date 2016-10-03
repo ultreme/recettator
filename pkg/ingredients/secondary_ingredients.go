@@ -152,7 +152,7 @@ func (i SecondaryIngredient) GetSteps() Steps {
 			Weight:      -100,
 		},
 		Step{
-			Instruction: fmt.Sprintf("faites chauffer %s et penser à vanne pendant le refroidissement", i.nameWithPrefix()),
+			Instruction: fmt.Sprintf("faites chauffer %s et penser à vanner pendant le refroidissement", i.nameWithPrefix()),
 			Weight:      -100,
 		},
 	}

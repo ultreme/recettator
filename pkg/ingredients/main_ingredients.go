@@ -180,25 +180,30 @@ func (i MainIngredient) IsMultiple() bool  { return i.Multiple }
 func (i MainIngredient) GetGender() string { return i.Gender }
 
 func (i MainIngredient) TitlePart(left Ingredient) string {
+	nameWithMethod := i.name
+	if i.method != nil {
+		nameWithMethod = fmt.Sprintf("%s %s", i.name, i.method.TitlePart(&i))
+	}
+
 	if left == nil {
-		return i.name
+		return nameWithMethod
 	}
 
 	switch i.rand.Intn(2) {
 	case 0:
 		switch {
 		case i.Multiple:
-			return fmt.Sprintf("aux %s", i.name)
-		case beginsWithVoyel(i.name):
-			return fmt.Sprintf("à l'%s", i.name)
+			return fmt.Sprintf("aux %s", nameWithMethod)
+		case beginsWithVoyel(nameWithMethod):
+			return fmt.Sprintf("à l'%s", nameWithMethod)
 		case i.Gender == "male":
-			return fmt.Sprintf("au %s", i.name)
+			return fmt.Sprintf("au %s", nameWithMethod)
 		case i.Gender == "female":
-			return fmt.Sprintf("à la %s", i.name)
+			return fmt.Sprintf("à la %s", nameWithMethod)
 		}
 	case 1:
 		var suffix string
-		if beginsWithVoyel(i.name) {
+		if beginsWithVoyel(nameWithMethod) {
 			suffix = "d'"
 		} else {
 			suffix = "de "
@@ -206,13 +211,13 @@ func (i MainIngredient) TitlePart(left Ingredient) string {
 
 		switch {
 		case left.GetGender() == "male" && !left.IsMultiple():
-			return fmt.Sprintf("assorti %s%s", suffix, i.name)
+			return fmt.Sprintf("assorti %s%s", suffix, nameWithMethod)
 		case left.GetGender() == "female" && !left.IsMultiple():
-			return fmt.Sprintf("assortie %s%s", suffix, i.name)
+			return fmt.Sprintf("assortie %s%s", suffix, nameWithMethod)
 		case left.GetGender() == "male" && left.IsMultiple():
-			return fmt.Sprintf("assortis %s%s", suffix, i.name)
+			return fmt.Sprintf("assortis %s%s", suffix, nameWithMethod)
 		case left.GetGender() == "female" && left.IsMultiple():
-			return fmt.Sprintf("assorties %s%s", suffix, i.name)
+			return fmt.Sprintf("assorties %s%s", suffix, nameWithMethod)
 		}
 	}
 	panic("should not happen")
