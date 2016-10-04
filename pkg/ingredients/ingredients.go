@@ -154,6 +154,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.rand = rnd
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("amandes", "female", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("anis", "male", false, rnd).SetIsPowder())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("betteraves", "female", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("beurre", "male", false, rnd).SetIsSpreadable())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("blancs d'oeufs", "male", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("blé", "male", false, rnd).SetIsPowder())
