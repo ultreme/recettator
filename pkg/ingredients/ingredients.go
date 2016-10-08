@@ -173,6 +173,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("farine", "female", false, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("figues", "female", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("flocons d'avoine", "male", false, rnd).SetIsPowder())
+        pool.SecondaryIngredients.append(NewSecondaryIngredient("frites", "female", true, rnd).SetIdByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("fromage rapé", "male", false, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("fruits sechés", "male", true, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("fruits", "male", false, rnd).SetIsPowder())
