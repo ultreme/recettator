@@ -196,6 +196,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("pamplemousse", "male", false, rnd).SetIsCitrus())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("petits pois", "male", true, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("pommes de terre", "female", true, rnd).SetIsByPiece())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("radis", "male", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("reblochon", "male", false, rnd).SetIsSpreadable())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("riz", "male", false, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("sel", "male", false, rnd).SetIsSpice())
