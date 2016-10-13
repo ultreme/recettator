@@ -181,6 +181,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("graines de pavot", "female", true, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("gui", "male", false, rnd).SetIsUncountable())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("houx", "male", false, rnd).SetIsUncountable()) // can be singular or plural
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("haricots", "male", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("jaunes d'oeufs", "male", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("lierre", "male", false, rnd).SetIsUncountable())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("mascarpone", "female", false, rnd).SetIsSpreadable())
