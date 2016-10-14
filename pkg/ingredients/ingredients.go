@@ -202,6 +202,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("riz", "male", false, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("sel", "male", false, rnd).SetIsSpice())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("tomates", "female", true, rnd).SetIsByPiece())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("vermicelles", "female", true, rnd).SetIsUncountable())
 
 	pool.IngredientMethods.rand = rnd
 	pool.IngredientMethods.append(NewIngredientMethod("farci", "farcie", "farcis", "farcies", Steps{{"remplissez %left% avec ce que vous voulez", 10}}, rnd))
