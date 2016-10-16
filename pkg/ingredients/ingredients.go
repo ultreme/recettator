@@ -201,6 +201,7 @@ func NewPool(rnd *rand.Rand) *IngredientsPool {
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("reblochon", "male", false, rnd).SetIsSpreadable())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("riz", "male", false, rnd).SetIsPowder())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("sel", "male", false, rnd).SetIsSpice())
+	pool.SecondaryIngredients.append(NewSecondaryIngredient("spaghettis", "male", true, rnd).SetIsUncountable())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("tomates", "female", true, rnd).SetIsByPiece())
 	pool.SecondaryIngredients.append(NewSecondaryIngredient("vermicelles", "female", true, rnd).SetIsUncountable())
 
