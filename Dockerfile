@@ -1,6 +1,6 @@
-FROM golang:1.6
-COPY . /go/src/github.com/camembertaulaitcrew/recettator
-WORKDIR /go/src/github.com/camembertaulaitcrew/recettator
-RUN go install -v ./cmd/recettator
+FROM golang:1.11
+COPY . /go/src/ultre.me/recettator
+WORKDIR /go/src/ultre.me/recettator
+RUN GO111MODULE=on go install -v ./cmd/recettator
 ENTRYPOINT ["recettator"]
 CMD ["-h"]

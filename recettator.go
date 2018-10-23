@@ -1,4 +1,4 @@
-package recettator
+package recettator // import "ultre.me/recettator"
 
 import (
 	"bytes"
@@ -7,9 +7,10 @@ import (
 	"math/rand"
 	"strings"
 
-	"github.com/Sirupsen/logrus"
-	"github.com/camembertaulaitcrew/recettator/pkg/ingredients"
 	"github.com/moul/advanced-ssh-config/pkg/templates"
+	"github.com/sirupsen/logrus"
+
+	"ultre.me/recettator/pkg/ingredients"
 )
 
 type Settings struct {
