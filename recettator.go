@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/moul/advanced-ssh-config/pkg/templates"
-	"github.com/sirupsen/logrus"
 
 	"ultre.me/recettator/pkg/ingredients"
 )
@@ -88,7 +87,7 @@ func (r *Recettator) prepare() {
 	// pick items
 	r.applyDefaults()
 	if err := r.isValid(); err != nil {
-		logrus.Fatalf("Invalid recette: %v", err)
+		panic(err)
 	}
 	r.pickItems()
 

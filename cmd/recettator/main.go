@@ -5,7 +5,11 @@ import (
 	"os"
 	"time"
 
+<<<<<<< Updated upstream
 	"github.com/sirupsen/logrus"
+=======
+	"github.com/camembertaulaitcrew/recettator"
+>>>>>>> Stashed changes
 	"github.com/urfave/cli"
 
 	"ultre.me/recettator"
@@ -18,10 +22,6 @@ func main() {
 	app.Version = "master"
 
 	app.Flags = []cli.Flag{
-		cli.BoolFlag{
-			Name:  "debug, D",
-			Usage: "Enable debug mode",
-		},
 		cli.IntFlag{
 			Name:  "seed, s",
 			Usage: "Set seed value",
@@ -48,15 +48,11 @@ func main() {
 
 	if err := app.Run(os.Args); err != nil {
 		//panic(err)
-		logrus.Fatalf("%v", err)
+		panic(err)
 	}
 }
 
 func run(c *cli.Context) error {
-	if c.Bool("debug") {
-		logrus.SetLevel(logrus.DebugLevel)
-	}
-
 	seed := int64(c.Int("seed"))
 	if seed == 0 {
 		seed = time.Now().UTC().UnixNano()
