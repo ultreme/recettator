@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"strings"
 
-	"github.com/moul/advanced-ssh-config/pkg/templates"
+	"moul.io/assh/pkg/templates"
 
 	"ultre.me/recettator/pkg/ingredients"
 )
