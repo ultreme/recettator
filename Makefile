@@ -1,4 +1,5 @@
-BIN :=		recettator
+GOPATH ?=	$(HOME)/go
+BIN :=		$(GOPATH)/bin/recettator
 SOURCE :=	$(shell find . -name "*.go")
 OWN_PACKAGES := $(shell go list ./... | grep -v vendor)
 
@@ -7,12 +8,12 @@ build: $(BIN)
 
 
 $(BIN): $(SOURCE)
-	go build -o ./$@ ./cmd/$@/main.go
+	go install ./cmd/recettator
 
 
 .PHONY: docker
 docker:
-	docker build -t camembertaulaitcrew/recettator .
+	docker build -t ultreme/recettator .
 
 
 .PHONY: test

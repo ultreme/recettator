@@ -5,11 +5,6 @@ import (
 	"os"
 	"time"
 
-<<<<<<< Updated upstream
-	"github.com/sirupsen/logrus"
-=======
-	"github.com/camembertaulaitcrew/recettator"
->>>>>>> Stashed changes
 	"github.com/urfave/cli"
 
 	"ultre.me/recettator"
