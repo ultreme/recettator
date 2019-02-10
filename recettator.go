@@ -6,8 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
-
-	"moul.io/assh/pkg/templates"
+	"text/template"
 
 	"ultre.me/recettator/pkg/ingredients"
 )
@@ -47,10 +46,13 @@ func New(seed int64) Recettator {
 
 func (r *Recettator) applyDefaults() {
 	if r.settings.MainIngredients == 0 {
-		qty := r.rnd.Intn(4) - 1
-		if qty > 0 {
-			r.settings.MainIngredients = uint64(qty)
-		}
+		r.settings.MainIngredients = uint64(r.rnd.Intn(3) + 1)
+	}
+	if r.settings.SecondaryIngredients == 0 {
+		r.settings.SecondaryIngredients = uint64(r.rnd.Intn(3) + 1)
+	}
+	if r.settings.Steps == 0 {
+		r.settings.Steps = uint64(r.rnd.Intn(3) + 1)
 	}
 }
 
@@ -129,7 +131,7 @@ func (r *Recettator) SetSettings(settings Settings) {
 
 func (r *Recettator) Markdown() (string, error) {
 	var buff bytes.Buffer
-	tmpl, err := templates.New(strings.TrimSpace(`
+	tmpl := template.Must(template.New("markdown").Parse(strings.TrimSpace(`
 # {{ .Title }}
 
 Pour {{ .People }} {{ if eq .People 1 }}personne{{ else }}personnes{{ end }}.
@@ -142,10 +144,7 @@ Pour {{ .People }} {{ if eq .People 1 }}personne{{ else }}personnes{{ end }}.
 ## Etapes
 
 {{ range .Steps }}* {{.}}
-{{end}} `))
-	if err != nil {
-		return "", err
-	}
+{{end}} `)))
 
 	if err := tmpl.Execute(&buff, r); err != nil {
 		return "", err

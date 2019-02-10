@@ -120,7 +120,7 @@ func NewMainIngredient(name, gender string, multiple bool, rnd *rand.Rand) *Main
 		}
 
 		if len(options) > 0 {
-			ingredient.quantity = options[rand.Intn(len(options))]
+			ingredient.quantity = options[rnd.Intn(len(options))]
 		}
 
 		break

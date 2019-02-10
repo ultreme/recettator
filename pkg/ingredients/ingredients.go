@@ -18,7 +18,7 @@ type Steps []Step
 
 func (s *Steps) Shuffle(rnd *rand.Rand) {
 	for i := range *s {
-		j := rand.Intn(len(*s))
+		j := rnd.Intn(len(*s))
 		(*s)[i], (*s)[j] = (*s)[j], (*s)[i]
 	}
 }
